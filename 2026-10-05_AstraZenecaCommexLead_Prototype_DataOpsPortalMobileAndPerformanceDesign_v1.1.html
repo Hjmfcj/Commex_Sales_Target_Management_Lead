@@ -1,0 +1,1338 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AstraZeneca COMEX — Sales &amp; Target Management</title>
+<style>
+:root{
+  --navy:#3c1053; --navy2:#5a1d73; --ink:#1c2333; --muted:#667085; --line:#e3e7ee;
+  --bg:#f4f6fa; --card:#ffffff; --teal:#830051; --teal-d:#5e0039; --teal-l:#f8e9f1;
+  --green:#1d8a4f; --green-l:#e4f5ec; --amber:#b86e00; --amber-l:#fdf1dc; --red:#c8372d; --red-l:#fbe7e5;
+  --blue-l:#efe6f6; --shadow:0 1px 2px rgba(16,24,40,.06),0 4px 14px rgba(16,24,40,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:"Segoe UI",Tahoma,"Noto Sans Arabic","Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45}
+button,input,select,textarea{font:inherit;color:inherit}
+.app{display:grid;grid-template-columns:262px 1fr;min-height:100vh}
+aside{background:linear-gradient(180deg,var(--navy) 0%,#2b0b3d 100%);color:#fff;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{padding:20px 20px 14px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.1)}
+.brand .mark{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#830051,#d0006f);display:grid;place-items:center;font-weight:800;font-size:18px;color:#fff;letter-spacing:-1px}
+.brand .wm{font-weight:800;letter-spacing:2px;font-size:13px}
+.brand .pn{font-size:12px;opacity:.75;margin-top:1px}
+nav{padding:10px 10px 20px;flex:1}
+.ng{font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.55;padding:14px 12px 6px}
+.nb{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;color:#dbe3ff;text-align:start;padding:9px 12px;border-radius:9px;cursor:pointer;font-size:13.5px}
+.nb:hover{background:rgba(255,255,255,.08)}
+.nb.on{background:rgba(255,255,255,.16);color:#fff;font-weight:600}
+.nb .ic{width:18px;height:18px;flex:none;opacity:.9}
+.nb .bd{margin-inline-start:auto;background:var(--teal);color:#fff;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:700}
+.nb .bd.warn{background:var(--amber)}
+.side-foot{padding:14px 18px;border-top:1px solid rgba(255,255,255,.1);font-size:12px;opacity:.75}
+main{min-width:0;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:14px;padding:12px 28px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.top h1{margin:0;font-size:19px;font-weight:700}
+.top .sub{color:var(--muted);font-size:12.5px;margin-top:2px}
+.top .sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--teal-l);color:var(--teal-d);border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:600}
+.lang{border:1px solid var(--line);background:#fff;border-radius:9px;padding:6px 12px;cursor:pointer;font-weight:600}
+.lang:hover{background:var(--bg)}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--navy2);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.content{padding:24px 28px 60px;max-width:1480px;width:100%}
+.grid{display:grid;gap:16px}
+.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.g21{grid-template-columns:2fr 1fr}.g12{grid-template-columns:1fr 2fr}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px}
+.card h3{margin:0 0 12px;font-size:15px}
+.card .hd{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.card .hd h3{margin:0}
+.card .hd .sp{flex:1}
+.kpi .lb{color:var(--muted);font-size:12.5px}
+.kpi .v{font-size:28px;font-weight:800;margin:4px 0 2px}
+.kpi .d{font-size:12px;color:var(--muted)}
+.kpi.click{cursor:pointer}.kpi.click:hover{border-color:var(--teal)}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 14px;cursor:pointer;font-weight:600;font-size:13px}
+.btn:hover{background:var(--bg)}
+.btn.pri{background:var(--teal);border-color:var(--teal);color:#fff}.btn.pri:hover{background:var(--teal-d)}
+.btn.dark{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.sm{padding:4px 10px;font-size:12px;border-radius:7px}
+.btn.danger{color:var(--red)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-gray{background:#eef0f4;color:#475467}.b-blue{background:var(--blue-l);color:#5a1d73}.b-green{background:var(--green-l);color:var(--green)}.b-amber{background:var(--amber-l);color:var(--amber)}.b-red{background:var(--red-l);color:var(--red)}.b-teal{background:var(--teal-l);color:var(--teal-d)}
+table{width:100%;border-collapse:collapse}
+th{background:#f8f9fc;color:#475467;font-size:12px;text-align:start;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid #eef0f4;vertical-align:middle}
+tr.row:hover td{background:#fafbfe}
+tr.clk{cursor:pointer}
+.num{text-align:end;font-variant-numeric:tabular-nums}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+.tw table{min-width:640px}
+.bar{height:8px;border-radius:99px;background:#e9edf3;overflow:hidden;min-width:90px}
+.bar>i{display:block;height:100%;background:var(--teal);border-radius:99px}
+.bar.g>i{background:var(--green)}.bar.a>i{background:var(--amber)}.bar.r>i{background:var(--red)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.toolbar .sp{flex:1}
+.fld{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
+.fld span{font-weight:600}
+input[type=text],input[type=number],input[type=search],select,textarea{border:1px solid #cfd5df;border-radius:8px;padding:7px 10px;background:#fff;min-width:0}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--teal-l);border-color:var(--teal)}
+input.inl{width:110px;text-align:end}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.tab{background:none;border:0;padding:9px 16px;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);font-weight:600}
+.tab.on{color:var(--teal-d);border-color:var(--teal)}
+.stepper{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
+.st{position:relative;padding:12px 10px;border-radius:12px;background:#f4f6fa;border:1px solid var(--line);text-align:center}
+.st .n{width:26px;height:26px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;background:#d6dbe5;color:#fff;font-weight:700;font-size:12px}
+.st .l{font-size:12px;font-weight:600}
+.st .s{font-size:11px;color:var(--muted);margin-top:2px}
+.st.done{background:var(--green-l);border-color:#bfe4cf}.st.done .n{background:var(--green)}
+.st.cur{background:var(--teal-l);border-color:#e0b3cc}.st.cur .n{background:var(--teal)}
+.st.fail{background:var(--red-l);border-color:#f0bdb8}.st.fail .n{background:var(--red)}
+.list{display:flex;flex-direction:column;gap:8px}
+.li{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:#fff}
+.li.clk{cursor:pointer}.li.clk:hover{border-color:var(--teal)}
+.li .grow{flex:1;min-width:0}
+.li .t{font-weight:600}.li .m{color:var(--muted);font-size:12px}
+.dot{width:9px;height:9px;border-radius:50%;background:#98a2b3;flex:none}.dot.g{background:var(--green)}.dot.a{background:var(--amber)}.dot.r{background:var(--red)}.dot.b{background:var(--teal)}
+.modal-bg{position:fixed;inset:0;background:rgba(15,26,61,.5);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modal-bg.on{display:flex}
+.modal{background:#fff;border-radius:16px;width:min(760px,100%);max-height:90vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal.wide{width:min(980px,100%)}
+.mh{display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:2}
+.mh h2{margin:0;font-size:17px;flex:1}
+.mh .x{border:0;background:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1}
+.mb{padding:18px 20px}
+.mf{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:0;background:#fff}
+.drawer{position:fixed;top:0;bottom:0;inset-inline-end:0;width:min(520px,100%);background:#fff;box-shadow:-10px 0 40px rgba(0,0,0,.2);z-index:90;transform:translateX(110%);transition:transform .25s;display:flex;flex-direction:column}
+[dir=rtl] .drawer{transform:translateX(-110%);box-shadow:10px 0 40px rgba(0,0,0,.2)}
+.drawer.on{transform:none}
+.toast{position:fixed;bottom:24px;inset-inline-start:50%;transform:translateX(-50%);background:var(--navy);color:#fff;border-radius:11px;padding:11px 18px;z-index:200;box-shadow:var(--shadow);display:none;max-width:90vw}
+.toast.on{display:block}
+.empty{padding:34px;text-align:center;color:var(--muted)}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;font-size:13px}
+.kv b{color:var(--muted);font-weight:600}
+.note{background:var(--teal-l);border:1px solid #e6c4d8;color:#6b0040;border-radius:10px;padding:10px 12px;font-size:13px}
+.note.warn{background:var(--amber-l);border-color:#f1d9a5;color:#8a560a}
+.note.err{background:var(--red-l);border-color:#f0bdb8;color:#8f2119}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:#eef1f7;border-radius:7px;padding:2px 8px;font-size:12px;font-family:Consolas,monospace}
+.sugg{display:flex;flex-wrap:wrap;gap:6px}
+.sg{border:1px solid var(--line);background:#fff;border-radius:8px;padding:4px 9px;font-size:12px;cursor:pointer}
+.sg:hover{border-color:var(--teal);background:var(--teal-l)}
+.sg.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.sg small{opacity:.75;margin-inline-start:4px}
+.logbox{background:#2b0b3d;color:#cfe0ff;border-radius:12px;padding:12px 14px;font-family:Consolas,monospace;font-size:12px;max-height:200px;overflow:auto}
+.logbox div{padding:1px 0}
+.chart{width:100%}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:5px}
+.split{display:grid;grid-template-columns:300px 1fr;gap:16px}
+.pgn{display:flex;gap:6px;align-items:center;justify-content:flex-end;padding:10px}
+.inrow{display:flex;gap:8px;align-items:center}
+.share-row{display:grid;grid-template-columns:1fr 110px;gap:10px;align-items:center;margin-bottom:8px}
+.price-line{display:flex;justify-content:space-between;padding:8px 10px;border:1px solid var(--line);border-radius:9px;margin-bottom:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:1100px){.g4{grid-template-columns:repeat(2,1fr)}.g21,.g12,.g3,.split{grid-template-columns:1fr}}
+@media (max-width:860px){.app{grid-template-columns:1fr}aside{position:static;height:auto}.stepper{grid-auto-flow:row}.content{padding:16px}.g2{grid-template-columns:1fr}}
+@media print{.drawer,.modal-bg,.toast,aside,.top,.toolbar .btn,.no-print{display:none!important}.app{display:block}}
+.drawer .mb{flex:1;overflow:auto}
+.drawer .mf{justify-content:flex-end}
+.drawer .mh{position:static}
+textarea{width:100%;resize:vertical}
+.mb h3{margin:0 0 8px}
+.chip{unicode-bidi:plaintext}
+.sg small,.badge,.kpi .v,.num{unicode-bidi:isolate}
+.sg small{direction:ltr;display:inline-block}
+.btn{white-space:nowrap}
+[dir=rtl] .num{direction:ltr;text-align:left}
+b,.kpi .v{unicode-bidi:isolate}
+#surfBar{position:sticky;top:0;z-index:60;height:46px;display:flex;align-items:center;gap:18px;padding:0 18px;background:#1f0a2e;color:#fff}
+#surfBar .sp{flex:1}
+.sb-brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.sb-prod{opacity:.7;font-size:12px;letter-spacing:.14em}
+.sb-tabs{display:flex;gap:4px}
+.sb-tabs button{background:none;border:0;color:#d9cce3;padding:7px 14px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px}
+.sb-tabs button:hover{background:rgba(255,255,255,.08)}
+.sb-tabs button.on{background:#830051;color:#fff}
+#surfBar .lang{background:transparent;color:#fff;border-color:rgba(255,255,255,.3)}
+#surfBar .lang:hover{background:rgba(255,255,255,.1)}
+.azw{font-weight:800;letter-spacing:.01em;color:#830051;font-size:18px}
+.azw.lt{color:#fff}
+aside{top:46px;height:calc(100vh - 46px)}
+.top{top:46px}
+.modal-bg{z-index:120}.drawer{top:46px;z-index:110}
+/* ===== partner portal & mobile ===== */
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.pt-hero{min-height:calc(100vh - 46px);background:linear-gradient(160deg,#f8e9f1 0%,#fff 55%,#f1eef4 100%);display:grid;place-items:center;padding:30px 16px}
+.entry{width:min(720px,100%);background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:34px}
+.entry h1{margin:14px 0 6px;font-size:26px;color:var(--navy)}.entry p{margin:0 0 20px;color:var(--muted)}
+.wm2{display:flex;align-items:center;gap:10px}
+.ptys{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pty{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:start;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:16px;cursor:pointer}
+.pty .ic{width:26px;height:26px;color:var(--teal)}.pty b{font-size:15px}.pty span{font-size:12.5px;color:var(--muted)}
+.pty:hover{border-color:var(--teal)}.pty.on{border-color:var(--teal);background:var(--teal-l)}
+.btn.blk{width:100%;justify-content:center}.btn.big{padding:14px;font-size:15px;border-radius:12px}
+.pt-head{background:linear-gradient(90deg,#3c1053,#830051);color:#fff}
+.pt-head .wrap{display:flex;align-items:center;gap:14px;padding-top:12px;padding-bottom:12px}
+.pt-prod{opacity:.85;border-inline-start:1px solid rgba(255,255,255,.35);padding-inline-start:14px;font-weight:600}
+.pt-head .sp{flex:1}.pt-who{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border-radius:999px;padding:5px 14px;font-size:13px}
+.pt-who .ic{width:16px;height:16px}.lnk{background:none;border:0;color:#fff;text-decoration:underline;cursor:pointer;font-size:13px}
+.pt-nav{padding-top:0!important;padding-bottom:0!important;gap:4px!important;background:rgba(0,0,0,.18);max-width:none;margin:0;padding-inline:max(24px,calc((100% - 1120px)/2 + 24px))!important}
+.pt-nav button{display:flex;align-items:center;gap:8px;background:none;border:0;color:#ecdff3;padding:12px 16px;cursor:pointer;font-weight:600;border-bottom:3px solid transparent}
+.pt-nav button .ic{width:17px;height:17px}.pt-nav button.on{color:#fff;border-bottom-color:#f0ab00}
+.pt-body{padding-top:24px;padding-bottom:60px}.pt-h1{font-size:24px;margin:0 0 16px;color:var(--navy)}
+#portal{min-height:calc(100vh - 46px);background:var(--bg)}
+.drop{display:flex;flex-direction:column;align-items:center;gap:6px;border:2px dashed #c9a7bd;border-radius:16px;background:#fdf7fa;padding:30px 16px;text-align:center;cursor:pointer;position:relative;margin-top:14px}
+.drop.on,.drop:hover{background:var(--teal-l);border-color:var(--teal)}
+.drop .ic{width:34px;height:34px;color:var(--teal)}.drop span{font-size:12.5px;color:var(--muted)}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.steps3{display:flex;flex-direction:column;gap:8px}
+.s3{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.s3 span{width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
+.pc{margin-top:16px;border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff}
+.pc-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}.pc-h .ic{width:26px;height:26px;color:var(--teal)}.pc-h .grow{flex:1;min-width:0;word-break:break-all}
+.m{color:var(--muted);font-size:12px}
+.chips2{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.chips2>div{background:#f8f9fc;border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column}
+.chips2 b{font-size:20px}.chips2 span{font-size:11.5px;color:var(--muted)}.chips2 .bad{background:var(--red-l);border-color:#f0bdb8}.chips2 .bad b{color:var(--red)}
+.note.ok{background:var(--green-l);border-color:#bfe4cf;color:#136a3b}
+.chk{display:flex;gap:8px;align-items:center;font-size:13px;cursor:pointer}
+.succ{text-align:center;padding:30px}.succ .tick{width:56px;height:56px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:30px;margin:0 auto 10px}
+.succ h2{margin:0 0 6px}.succ p{color:var(--muted);margin:0}
+.how{margin:8px 0 0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px;color:#344054}
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tl>div{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--muted);text-align:center}
+.tl i{width:28px;height:28px;border-radius:50%;background:#d6dbe5;color:#fff;display:grid;place-items:center;font-style:normal;font-weight:700}
+.tl .done i{background:var(--green)}.tl .cur i{background:var(--teal)}.tl .done,.tl .cur{color:var(--ink);font-weight:600}
+/* phone */
+#mobile{min-height:calc(100vh - 46px);display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 20%,#f8e9f1,#e9e2ee 60%,#d9cfe2);padding:18px}
+.phone{width:392px;height:min(800px,calc(100vh - 90px));min-height:640px;background:#f6f3f8;border:10px solid #1f0a2e;border-radius:42px;box-shadow:0 30px 70px rgba(31,10,46,.45);overflow:hidden;display:flex;flex-direction:column;position:relative}
+.mtop{background:linear-gradient(90deg,#3c1053,#830051);color:#fff;padding:16px 18px 12px;flex:none}
+.mwho{font-size:12.5px;opacity:.85;margin-top:4px}
+.mscreen{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
+.mscreen.entrym{padding:0;background:#fff}.entrym .entry{border:0;box-shadow:none;border-radius:0;padding:26px 18px;width:100%}.entrym .entry h1{font-size:21px}.entrym .ptys{grid-template-columns:1fr}
+.mtabs{flex:none;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid var(--line)}
+.mtabs button{background:none;border:0;padding:9px 0 10px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#667085;font-size:11px;cursor:pointer}
+.mtabs button .ic{width:22px;height:22px}.mtabs button.on{color:var(--teal);font-weight:700}
+.mcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.mcard.hero{background:linear-gradient(135deg,#830051,#3c1053);color:#fff;border:0}.mcard.hero .m{color:#f0d3e3}.mcard.hero .v{font-size:26px;font-weight:800;margin:4px 0 8px}
+.mh2{display:flex;align-items:center;gap:8px;font-weight:700;margin-top:4px}.mh2 .ic{width:18px;height:18px;color:var(--teal)}
+.li2{display:flex;align-items:center;gap:10px;cursor:pointer}.li2 .grow{flex:1;min-width:0}.li2.plain{cursor:default;padding:6px 0;border-bottom:1px solid #f0f1f5}
+.succ.ms{background:#fff;border-radius:14px;border:1px solid var(--line)}
+.phone .drop{padding:22px 10px}.phone .chips2{grid-template-columns:repeat(2,1fr)}
+.phone .btn{white-space:normal}
+@media (max-width:560px){.phone{width:100%;height:calc(100vh - 46px);border:0;border-radius:0}#mobile{padding:0}.ptys{grid-template-columns:1fr}.chips2{grid-template-columns:repeat(2,1fr)}.pt-head .wrap{flex-wrap:wrap}}
+.btn .ic,.pc-h .ic{flex:none}.btn .ic{width:16px;height:16px}
+
+</style>
+</head>
+<body>
+<div id="surfBar"><div class="sb-brand"><span class="azw lt" data-i="az_name">AstraZeneca</span><span class="sb-prod">COMEX</span></div><div class="sb-tabs"><button data-s="console" onclick="A.surf('console')" data-i="surf_console"></button><button data-s="portal" onclick="A.surf('portal')" data-i="surf_portal"></button><button data-s="mobile" onclick="A.surf('mobile')" data-i="surf_mobile"></button></div><span class="sp"></span><button class="lang" id="langBtn" onclick="A.lang()"></button></div>
+<div class="app" id="cons">
+  <aside>
+    <div class="brand"><div class="mark">C</div><div><div class="wm" data-i="az_name">AstraZeneca</div><div class="pn" data-i="app_sub">COMEX</div></div></div>
+    <nav id="nav"></nav>
+  </aside>
+  <main>
+    <div class="top">
+      <div><h1 id="pgTitle"></h1><div class="sub" id="pgSub"></div></div>
+      <span class="sp"></span>
+      <span class="pill" id="cycPill"></span>
+    </div>
+    <div class="content" id="main"></div>
+  </main>
+</div>
+<div id="portal" style="display:none"></div>
+<div id="mobile" style="display:none"></div>
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)A.closeModal()"><div class="modal" id="modalBox" role="dialog" aria-modal="true"></div></div>
+<div class="drawer" id="drawer" role="dialog"></div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+/* ===== dictionary: key -> [English, Arabic] ===== */
+const L = {
+  app_name: ['COMEX — Sales & Target Management', 'COMEX — إدارة المبيعات والأهداف'],
+  app_sub: ['Sales & Target Management', 'إدارة المبيعات والأهداف'],
+  /* nav */
+  nav_home: ['Overview', 'نظرة عامة'], nav_files: ['Incoming Files', 'الملفات الواردة'], nav_mapping: ['Customer Mapping', 'مطابقة العملاء'],
+  nav_validation: ['Validation', 'التحقق من البيانات'], nav_runs: ['Upload & Refresh', 'الرفع والتحديث'], nav_catalog: ['Data Catalog', 'فهرس البيانات'],
+  nav_targets: ['Targets', 'الأهداف'], nav_achievement: ['Achievement', 'نسبة التحقيق'], nav_sales: ['Sales Records', 'سجل المبيعات'], nav_reports: ['Reports', 'التقارير'],
+  nav_products: ['Products & Prices', 'المنتجات والأسعار'], nav_distributors: ['Distributors', 'الموزعون'], nav_customers: ['Customers', 'العملاء'],
+  grp_ops: ['Data Operations', 'عمليات البيانات'], grp_perf: ['Commercial Performance', 'الأداء التجاري'], grp_master: ['Master Data', 'البيانات الأساسية'],
+  sub_home: ['Monthly cycle status at a glance', 'حالة الدورة الشهرية في لمحة'], sub_files: ['Distributor files received for the current cycle', 'ملفات الموزعين المستلمة للدورة الحالية'],
+  sub_mapping: ['Match distributor customer names to the customer master', 'مطابقة أسماء عملاء الموزعين مع بيانات العملاء الأساسية'],
+  sub_validation: ['Check every file against the upload template before loading', 'فحص كل ملف وفق قالب الرفع قبل التحميل'],
+  sub_runs: ['Load validated files, refresh figures and reconcile', 'تحميل الملفات المعتمدة وتحديث الأرقام ومطابقتها'],
+  sub_catalog: ['Every table, what it holds and who documented it', 'كل جدول ومحتواه وحالة توثيقه'],
+  sub_targets: ['Set and review targets by territory and product', 'تحديد ومراجعة الأهداف حسب المنطقة والمنتج'],
+  sub_achievement: ['Actual sales against target', 'المبيعات الفعلية مقابل الهدف'], sub_sales: ['Clean sales records, ready to filter and export', 'سجلات مبيعات نظيفة جاهزة للتصفية والتصدير'],
+  sub_reports: ['Dashboards and ready-to-use datasets', 'لوحات متابعة وبيانات جاهزة للاستخدام'],
+  sub_products: ['Product list with effective-dated prices', 'قائمة المنتجات بأسعار مرتبطة بتاريخ السريان'],
+  sub_distributors: ['Distributors, territories and file patterns', 'الموزعون والمناطق وأنماط أسماء الملفات'], sub_customers: ['Customer master', 'بيانات العملاء الأساسية'],
+  /* generic */
+  all: ['All', 'الكل'], cancel: ['Cancel', 'إلغاء'], close: ['Close', 'إغلاق'], save: ['Save', 'حفظ'], saved: ['Saved', 'تم الحفظ'], confirm: ['Confirm', 'تأكيد'], delete: ['Delete', 'حذف'],
+  open: ['Open', 'فتح'], export: ['Export', 'تصدير'], print: ['Print', 'طباعة'], search: ['Search…', 'بحث…'], details: ['Details', 'التفاصيل'], undo: ['Undo', 'تراجع'], choose: ['Choose…', 'اختر…'],
+  status: ['Status', 'الحالة'], action: ['Action', 'الإجراء'], date: ['Date', 'التاريخ'], period: ['Period', 'الفترة'], total: ['Total', 'الإجمالي'], code: ['Code', 'الكود'], field: ['Field', 'الحقل'],
+  value: ['Value', 'القيمة'], type: ['Type', 'النوع'], required: ['Required', 'إلزامي'], rule: ['Rule', 'القاعدة'], row: ['Row', 'الصف'], rows: ['Rows', 'الصفوف'], file: ['File', 'الملف'],
+  progress: ['Progress', 'التقدم'], share: ['Share', 'النسبة'], rep: ['Representative', 'المندوب'], metric: ['Metric', 'المؤشر'], units: ['Units', 'الوحدات'], records: ['Records', 'السجلات'],
+  no_results: ['No results', 'لا توجد نتائج'], err_date: ['Choose an effective date.', 'اختر تاريخ السريان.'], err_dec2: ['Enter a price greater than 0 with at most 2 decimals.', 'أدخل سعرًا أكبر من صفر بحد أقصى خانتين عشريتين.'],
+  err_num: ['Enter a whole number of 0 or more.', 'أدخل رقمًا صحيحًا لا يقل عن صفر.'], err_req: ['A required value is missing.', 'هناك قيمة إلزامية ناقصة.'], err_dup: ['This value already exists.', 'هذه القيمة موجودة بالفعل.'],
+  /* overview */
+  cycle: ['Cycle', 'الدورة'], go_runs: ['Go to Upload & Refresh', 'اذهب إلى الرفع والتحديث'], attn: ['Files needing attention', 'ملفات تحتاج إلى إجراء'], perf_snap: ['Achievement by territory', 'التحقيق حسب المنطقة'],
+  all_clear: ['Nothing waiting — all files are loaded.', 'لا شيء معلّق — تم تحميل كل الملفات.'], c_recv: ['Files received', 'استلام الملفات'], c_map: ['Customer mapping', 'مطابقة العملاء'],
+  c_val: ['Validation', 'التحقق'], c_up: ['Upload', 'الرفع'], c_ref: ['Refresh', 'التحديث'], c_rec: ['Reconciliation', 'المطابقة'], c_pending: ['pending', 'معلّق'], c_done: ['Done', 'مكتمل'], c_wait: ['Waiting', 'بانتظار'],
+  k_files: ['Files', 'الملفات'], k_map: ['Names to map', 'أسماء تحتاج مطابقة'], k_map_d: ['across all files', 'في كل الملفات'], k_err: ['Open errors', 'أخطاء مفتوحة'], k_err_d: ['rows to fix before upload', 'صفوف تحتاج تصحيحًا قبل الرفع'], k_ach: ['Achievement', 'نسبة التحقيق'],
+  /* files */
+  add_file: ['Add file', 'إضافة ملف'], auto_detect: ['Distributor detected from the file name', 'يُحدَّد الموزع تلقائيًا من اسم الملف'], distributor: ['Distributor', 'الموزع'], received: ['Received', 'تاريخ الاستلام'],
+  channel: ['Channel', 'القناة'], via_email: ['Email', 'البريد الإلكتروني'], via_upload: ['Manual upload', 'رفع يدوي'], name_changed: ['New file name', 'اسم ملف جديد'],
+  name_changed_note: ['This file name differs from last cycle. It was matched to the distributor through its file-name patterns.', 'اسم هذا الملف يختلف عن الدورة السابقة. تمت مطابقته مع الموزع عبر أنماط أسماء الملفات.'],
+  unmapped: ['Unmapped names', 'أسماء غير مطابقة'], preview: ['Data preview', 'معاينة البيانات'], pick_file: ['Choose a file first.', 'اختر ملفًا أولًا.'], file_added: ['File added', 'تمت إضافة الملف'],
+  go_mapping: ['Go to mapping', 'اذهب إلى المطابقة'], go_validation: ['Go to validation', 'اذهب إلى التحقق'],
+  st_mapping: ['Needs mapping', 'تحتاج مطابقة'], st_validation: ['Needs fixes', 'تحتاج تصحيح'], st_ready: ['Ready to upload', 'جاهز للرفع'], st_uploaded: ['Uploaded', 'تم الرفع'],
+  /* mapping */
+  queue: ['To map', 'بانتظار المطابقة'], rules: ['Saved rules', 'القواعد المحفوظة'], raw_name: ['Name in distributor file', 'الاسم في ملف الموزع'], maps_to: ['Customer', 'العميل'], created: ['Created', 'تاريخ الإنشاء'],
+  map_help: ['Pick a suggested customer or search the list. Saved rules map the same name automatically in future cycles.', 'اختر عميلًا مقترحًا أو ابحث في القائمة. القواعد المحفوظة تطابق نفس الاسم تلقائيًا في الدورات القادمة.'],
+  accept_top: ['Accept best suggestions', 'قبول أفضل الاقتراحات'], suggestions: ['Suggestions', 'الاقتراحات'], save_rule: ['Save as rule', 'حفظ كقاعدة'], no_unmapped: ['All names in this file are mapped.', 'كل الأسماء في هذا الملف مطابقة.'],
+  map_done: ['Mapping complete', 'اكتملت المطابقة'], rule_applied: ['Rule applied to matching names in other files', 'تم تطبيق القاعدة على الأسماء المطابقة في ملفات أخرى'], rule_deleted: ['Rule deleted', 'تم حذف القاعدة'],
+  /* validation */
+  errors: ['Errors', 'الأخطاء'], templates: ['Upload templates', 'قوالب الرفع'], export_err: ['Export errors', 'تصدير الأخطاء'], fix_all_dec: ['Round all prices to 2 decimals', 'تقريب كل الأسعار لخانتين عشريتين'],
+  map_first: ['Finish customer mapping for this file before validation.', 'أكمل مطابقة العملاء لهذا الملف قبل التحقق.'], fixed: ['Fixed', 'تم التصحيح'], fixed_all: ['All price errors fixed', 'تم تصحيح كل أخطاء الأسعار'], issue: ['Issue', 'المشكلة'],
+  is_dec: ['Price has more than 2 decimals', 'السعر به أكثر من خانتين عشريتين'], is_miss: ['Required value is empty', 'قيمة إلزامية فارغة'], is_prod: ['Product code not found', 'كود المنتج غير موجود'],
+  round2: ['Round', 'تقريب'], no_errors: ['No errors in this file.', 'لا توجد أخطاء في هذا الملف.'], open_s: ['Open', 'مفتوح'], dl_tpl: ['Download template', 'تحميل القالب'],
+  tpl_sales: ['Sales file', 'ملف المبيعات'], tpl_price: ['Price list', 'قائمة الأسعار'], f_date: ['Date', 'التاريخ'], f_prod: ['Product code', 'كود المنتج'], f_cust: ['Customer', 'العميل'], f_units: ['Units', 'الوحدات'],
+  f_price: ['Unit price', 'سعر الوحدة'], f_eff: ['Effective from', 'ساري من'], f_product: ['Product', 'المنتج'], f_customer: ['Customer', 'العميل'],
+  type_date: ['Date', 'تاريخ'], type_text: ['Text', 'نص'], type_int: ['Whole number', 'رقم صحيح'], type_dec: ['Decimal', 'رقم عشري'],
+  r_exists: ['Must exist in product list', 'يجب أن يوجد في قائمة المنتجات'], r_mapped: ['Must be mapped to a customer', 'يجب مطابقته مع عميل'], r_pos: ['Greater than 0', 'أكبر من صفر'], r_dec2: ['Max 2 decimals', 'خانتان عشريتان كحد أقصى'],
+  /* runs */
+  new_run: ['New upload', 'رفع جديد'], start_run: ['Start upload & refresh', 'ابدأ الرفع والتحديث'], pick_files: ['Select at least one file.', 'اختر ملفًا واحدًا على الأقل.'],
+  none_ready: ['No files are ready yet. Complete mapping and validation first.', 'لا توجد ملفات جاهزة بعد. أكمل المطابقة والتحقق أولًا.'], all_uploaded: ['All files for this cycle are uploaded.', 'تم رفع كل ملفات هذه الدورة.'],
+  rs_upload: ['Upload', 'الرفع'], rs_refresh: ['Refresh', 'التحديث'], rs_recon: ['Reconcile', 'المطابقة'], run_going: ['In progress', 'جارٍ التنفيذ'], run_done: ['Completed', 'اكتمل'],
+  dms_busy: ['Refresh in progress — figures may be unavailable until this step completes.', 'التحديث جارٍ — قد لا تتوفر الأرقام حتى تكتمل هذه الخطوة.'],
+  rows_loaded: ['Rows loaded', 'الصفوف المحمّلة'], rows_rejected: ['Rows rejected', 'الصفوف المرفوضة'], recon: ['Reconciliation', 'المطابقة'], matched: ['Matches source', 'مطابق للمصدر'],
+  history: ['Upload history', 'سجل الرفع'], run: ['Upload', 'عملية الرفع'], duration: ['Duration', 'المدة'],
+  lg_start: ['Upload started', 'بدأ الرفع'], lg_rows: ['rows loaded', 'صف تم تحميله'], lg_refresh: ['Sales and targets refreshed', 'تم تحديث المبيعات والأهداف'], lg_recon: ['Row counts reconciled with source files', 'تمت مطابقة أعداد الصفوف مع ملفات المصدر'], lg_done: ['Upload completed', 'اكتمل الرفع'],
+  /* catalog */
+  cat_tables: ['Tables', 'الجداول'], cat_doc: ['Documented', 'موثّق'], cat_undoc: ['Not documented', 'غير موثّق'], documented: ['Documented', 'موثّق'], undocumented: ['Not documented', 'غير موثّق'],
+  table_name: ['Table', 'الجدول'], domain: ['Domain', 'المجال'], updated: ['Last updated', 'آخر تحديث'], description: ['Description', 'الوصف'], columns: ['Columns', 'الأعمدة'], desc_ph: ['What does this table hold?', 'ماذا يحتوي هذا الجدول؟'],
+  /* targets */
+  ts_draft: ['Draft', 'مسودة'], ts_submitted: ['Submitted for review', 'مرسل للمراجعة'], ts_approved: ['Approved', 'معتمد'], territory: ['Territory', 'المنطقة'], product: ['Product', 'المنتج'], target: ['Target', 'الهدف'], targets: ['Targets', 'الأهداف'],
+  prev_actual: ['Previous month actual', 'فعلي الشهر السابق'], vs_prev: ['Change', 'التغيير'], reps_shares: ['Territory shares', 'نسب المناديب في المنطقة'], edit_shares: ['Edit shares', 'تعديل النسب'],
+  copy_prev: ['Copy previous month', 'نسخ الشهر السابق'], submit_review: ['Submit for review', 'إرسال للمراجعة'], return_draft: ['Return to draft', 'إعادة إلى مسودة'], approve: ['Approve', 'اعتماد'],
+  confirm_submit: ['Submit these targets for review?', 'هل تريد إرسال هذه الأهداف للمراجعة؟'], confirm_approve: ['Approve these targets? They can no longer be edited.', 'هل تريد اعتماد هذه الأهداف؟ لن يمكن تعديلها بعد ذلك.'],
+  submitted_ok: ['Targets submitted for review', 'تم إرسال الأهداف للمراجعة'], approved_ok: ['Targets approved', 'تم اعتماد الأهداف'], returned: ['Returned to draft', 'تمت الإعادة إلى مسودة'], copied: ['Previous month copied', 'تم نسخ الشهر السابق'],
+  shares_help: ['The shares of all representatives in a territory must add up to exactly 100%.', 'يجب أن يكون مجموع نسب المناديب في المنطقة 100% بالضبط.'], add_rep: ['Add representative', 'إضافة مندوب'], split_equal: ['Split equally', 'تقسيم بالتساوي'],
+  /* achievement */
+  actual: ['Actual', 'الفعلي'], by_product: ['By product', 'حسب المنتج'], by_dist: ['By distributor', 'حسب الموزع'], by_rep: ['By representative', 'حسب المندوب'],
+  /* reports */
+  dashboards: ['Dashboards', 'لوحات المتابعة'], datasets: ['Datasets', 'مجموعات البيانات'], rp_terr: ['Achievement by territory', 'التحقيق حسب المنطقة'], rp_mix: ['Product mix', 'توزيع المنتجات'],
+  rp_trend: ['Actual vs target', 'الفعلي مقابل الهدف'], rp_dist: ['By distributor', 'حسب الموزع'], download_csv: ['Download CSV', 'تحميل CSV'],
+  ds_sales: ['Clean sales', 'المبيعات النظيفة'], ds_sales_d: ['All sales records after mapping and validation.', 'كل سجلات المبيعات بعد المطابقة والتحقق.'],
+  ds_targets: ['Targets', 'الأهداف'], ds_targets_d: ['Targets by month, territory and product.', 'الأهداف حسب الشهر والمنطقة والمنتج.'],
+  ds_ach: ['Achievement', 'التحقيق'], ds_ach_d: ['Actual against target by month and territory.', 'الفعلي مقابل الهدف حسب الشهر والمنطقة.'],
+  ds_rules: ['Mapping rules', 'قواعد المطابقة'], ds_rules_d: ['Saved customer-name rules.', 'قواعد أسماء العملاء المحفوظة.'], ds_runs: ['Upload history', 'سجل الرفع'], ds_runs_d: ['Every upload with row counts.', 'كل عملية رفع مع أعداد الصفوف.'],
+  /* master */
+  cur_price: ['Current price', 'السعر الحالي'], eff_from: ['Effective from', 'ساري من'], price_hist: ['Price history', 'سجل الأسعار'], new_price: ['New price', 'سعر جديد'], add_price: ['Add price', 'إضافة السعر'],
+  price_note: ['A new price applies from its effective date onward. Sales recorded before that date keep the price that was in force on their date.', 'السعر الجديد يسري من تاريخ السريان فصاعدًا. المبيعات المسجلة قبل هذا التاريخ تحتفظ بالسعر الذي كان ساريًا وقتها.'],
+  territories: ['Territories', 'المناطق'], file_patterns: ['File name patterns', 'أنماط أسماء الملفات'], last_file: ['Last file', 'آخر ملف'], customers: ['Customers', 'العملاء'], add_pattern: ['Add pattern', 'إضافة نمط'], pattern: ['File name pattern', 'نمط اسم الملف'],
+  customer: ['Customer', 'العميل'], aliases: ['Saved rules', 'القواعد المحفوظة'], add_customer: ['Add customer', 'إضافة عميل'], name_en: ['Name (English)', 'الاسم (إنجليزي)'], name_ar: ['Name (Arabic)', 'الاسم (عربي)']
+};
+
+/* ===== partner side + identity strings ===== */
+Object.assign(L, {
+  az_name: ['AstraZeneca', 'أسترازينيكا'], app_name: ['AstraZeneca COMEX — Sales & Target Management', 'أسترازينيكا COMEX — إدارة المبيعات والأهداف'],
+  app_sub: ['COMEX · Sales & Target Management', 'COMEX · إدارة المبيعات والأهداف'],
+  surf_console: ['COMEX Console', 'لوحة COMEX'], surf_portal: ['Partner Portal', 'بوابة الشركاء'], surf_mobile: ['Mobile App', 'تطبيق الموبايل'],
+  source: ['Source', 'المصدر'], via_portal: ['Portal', 'البوابة'], via_mobile: ['Mobile app', 'تطبيق الموبايل'], st_returned: ['Returned to sender', 'أُعيد إلى المُرسِل'],
+  restore: ['Restore', 'استعادة'], return_sender: ['Return to sender', 'إعادة إلى المُرسِل'], reason: ['Reason', 'السبب'], message_to_sender: ['Message to sender', 'رسالة إلى المُرسِل'],
+  rr_cols: ['Columns do not match the template', 'الأعمدة لا تطابق القالب'], rr_data: ['Data issues need correcting', 'توجد بيانات تحتاج تصحيحًا'], rr_period: ['File covers the wrong period', 'الملف لا يغطي الفترة الصحيحة'],
+  returned_ok: ['File returned to sender', 'تمت إعادة الملف إلى المُرسِل'], rounded_note: ['Prices with more than 2 decimals were rounded by the sender on submission.', 'قام المُرسِل بتقريب الأسعار التي تزيد عن خانتين عشريتين عند الإرسال.'],
+  /* party types */
+  pt_pharm: ['Pharmacy', 'صيدلية'], pt_rep: ['Sales representative', 'مندوب مبيعات'], pt_dist: ['Distributor', 'موزع'],
+  ptd_pharm: ['Send your pharmacy sales file', 'أرسل ملف مبيعات صيدليتك'], ptd_rep: ['Send the sales file for your visits', 'أرسل ملف المبيعات الخاص بزياراتك'], ptd_dist: ['Send your periodic sales file', 'أرسل ملف المبيعات الدوري'],
+  pt_who: ['Select your name', 'اختر اسمك'], continue: ['Continue', 'متابعة'],
+  en_title_p: ['COMEX Partner Portal', 'بوابة شركاء COMEX'], en_title_m: ['COMEX Partner App', 'تطبيق شركاء COMEX'], en_sub: ['Send your sales files and follow their status. Choose how you are using it.', 'أرسل ملفات المبيعات وتابع حالتها. اختر صفتك.'],
+  portal_name: ['Partner Portal', 'بوابة الشركاء'], pn_home: ['Home', 'الرئيسية'], pn_upload: ['Send sales file', 'إرسال ملف المبيعات'], pn_history: ['My files', 'ملفاتي'], pn_help: ['Templates & guide', 'القوالب والإرشادات'],
+  mn_send: ['Send', 'إرسال'], mn_help: ['Guide', 'الدليل'], switch: ['Switch user', 'تغيير المستخدم'],
+  k_uploads: ['Files this cycle', 'ملفات هذه الدورة'], k_attn: ['Need your attention', 'تحتاج إلى انتباهك'], k_attn_d: ['returned files', 'ملفات معادة'], not_sent: ['Not sent yet', 'لم يُرسل بعد'],
+  send_file: ['Send this cycle’s sales file', 'أرسل ملف مبيعات هذه الدورة'], send_file_d: ['Use the template, choose the period and drop your Excel or CSV file. We check it before it is sent.', 'استخدم القالب واختر الفترة وأسقط ملف Excel أو CSV. نفحصه قبل الإرسال.'],
+  updates: ['Updates', 'المستجدات'], no_updates: ['No updates yet.', 'لا توجد مستجدات بعد.'], upd_returned: ['Returned', 'أُعيد'], upd_loaded: ['Loaded successfully', 'تم تحميله بنجاح'],
+  sent_ok: ['File sent', 'تم إرسال الملف'], sent_sub: ['We received your file and will keep you updated on its progress.', 'استلمنا ملفك وسنوافيك بتطور حالته.'], receipt: ['Receipt', 'رقم الإيصال'], send_another: ['Send another file', 'إرسال ملف آخر'],
+  help_tpl: ['Sales file template', 'قالب ملف المبيعات'], help_steps: ['How it works', 'كيف تعمل'],
+  how1: ['Download the template and fill it in Excel.', 'حمّل القالب واملأه في Excel.'], how2: ['Choose the period and drop the file.', 'اختر الفترة وأسقط الملف.'], how3: ['We check it instantly and show what needs fixing.', 'نفحصه فورًا ونعرض ما يحتاج تصحيحًا.'], how4: ['Send it and follow its status under My files.', 'أرسله وتابع حالته من ملفاتي.'],
+  xs_replaced: ['Replaced', 'تم استبداله'], xs_loaded: ['Loaded', 'تم التحميل'], xs_returned: ['Returned — action needed', 'أُعيد — مطلوب إجراء'], xs_matching: ['Matching names', 'جارٍ مطابقة الأسماء'], xs_checking: ['Being checked', 'قيد الفحص'], xs_ready: ['Ready to load', 'جاهز للتحميل'],
+  xt_recv: ['Received', 'تم الاستلام'], xt_match: ['Matching', 'المطابقة'], xt_check: ['Checking', 'الفحص'], xt_loaded: ['Loaded', 'التحميل'],
+  up_s1: ['Download the template:', 'حمّل القالب:'], up_s2: ['Period:', 'الفترة:'], up_s3: ['Drop your file below.', 'أسقط ملفك بالأسفل.'], drop_t: ['Drop your file here or tap to browse', 'أسقط ملفك هنا أو اضغط للاختيار'], drop_s: ['Excel (.xlsx) or CSV', 'Excel (.xlsx) أو CSV'],
+  reading: ['Reading your file…', 'جارٍ قراءة ملفك…'], remove: ['Remove', 'إزالة'], empty_file: ['The file has no data rows.', 'الملف لا يحتوي على صفوف بيانات.'], cols_missing: ['Missing columns', 'أعمدة ناقصة'], dl_xlsx: ['Download template', 'تحميل القالب'],
+  rows_ok: ['Rows ready', 'صفوف جاهزة'], rows_fix: ['Rows to fix', 'صفوف تحتاج تصحيحًا'], rows_dec: ['Prices to round', 'أسعار للتقريب'], names_match: ['Names to match', 'أسماء للمطابقة'],
+  xe_date: ['Date not recognised', 'تاريخ غير معروف'], xe_miss: ['Required value is empty', 'قيمة إلزامية فارغة'], xe_prod: ['Product code not found', 'كود المنتج غير موجود'], xe_units: ['Units must be a whole number above 0', 'الوحدات يجب أن تكون رقمًا صحيحًا أكبر من صفر'], xe_price: ['Price must be a number above 0', 'السعر يجب أن يكون رقمًا أكبر من صفر'], xe_cust: ['Customer is empty', 'العميل فارغ'],
+  more_issues: ['more issues in the file', 'مشكلات أخرى في الملف'], round_opt: ['Round prices to 2 decimals automatically', 'تقريب الأسعار تلقائيًا إلى خانتين عشريتين'],
+  names_note: ['Some customer names are new to us. Our team will match them — you do not need to change your file.', 'بعض أسماء العملاء جديدة علينا. سيطابقها فريقنا ولا تحتاج إلى تعديل ملفك.'],
+  outside_note: ['rows are dated outside the selected period', 'صفوف تاريخها خارج الفترة المختارة'], fix_first: ['Fix the issues below in your file, then drop it again.', 'صحّح المشكلات أدناه في ملفك ثم أسقطه مرة أخرى.'], looks_good: ['Your file looks good and is ready to send.', 'ملفك سليم وجاهز للإرسال.'],
+  submit_file: ['Send file', 'إرسال الملف'], replacing: ['You are replacing', 'أنت تستبدل'], up_corrected: ['Send corrected file', 'إرسال ملف مُصحَّح'],
+  err_ext: ['Please use an Excel (.xlsx) or CSV file.', 'من فضلك استخدم ملف Excel (.xlsx) أو CSV.'], err_read: ['We could not read this file. Check that it is not damaged or protected.', 'تعذّرت قراءة هذا الملف. تأكد أنه غير تالف أو محمي.'],
+  r_known: ['Customer name as you know it', 'اسم العميل كما تعرفه']
+});
+
+/* ===== core helpers & data ===== */
+let lang = 'en';
+const t = k => { const v = L[k]; if (!v) { console.warn('missing i18n', k); return k; } return v[lang === 'ar' ? 1 : 0]; };
+const nm = o => (lang === 'ar' ? o.ar : o.en);
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const fmt2 = n => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const pct = (a, b) => (b ? (a / b) * 100 : 0);
+const MN = { en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], ar: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'] };
+const mLabel = m => { const [y, mo] = m.split('-'); return MN[lang][+mo - 1] + ' ' + y; };
+const dLabel = d => { const [y, mo, da] = d.split('-'); return da + ' ' + MN[lang][+mo - 1] + ' ' + y; };
+function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let x = Math.imul(seed ^ seed >>> 15, 1 | seed); x = x + Math.imul(x ^ x >>> 7, 61 | x) ^ x; return ((x ^ x >>> 14) >>> 0) / 4294967296; }; }
+const R = rng(20261004);
+
+const MONTHS = ['2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09'];
+const CUR = '2026-09';
+const TERR = [
+  { id: 'T1', en: 'New Cairo', ar: 'القاهرة الجديدة' }, { id: 'T2', en: 'Nasr City', ar: 'مدينة نصر' },
+  { id: 'T3', en: 'Giza', ar: 'الجيزة' }, { id: 'T4', en: 'Alexandria', ar: 'الإسكندرية' },
+  { id: 'T5', en: 'Delta', ar: 'الدلتا' }, { id: 'T6', en: 'Upper Egypt', ar: 'الصعيد' }];
+const DIST = [
+  { id: 'D01', en: 'Delta Distribution Co.', ar: 'شركة الدلتا للتوزيع', pat: ['DELTA_SALES_*.xlsx', 'DLT-*.xlsx'], terr: ['T3', 'T4', 'T5'] },
+  { id: 'D02', en: 'Cairo Medical Trading', ar: 'القاهرة للتجارة الطبية', pat: ['CMT-sales-*.xlsx', 'CMT_*.xlsx'], terr: ['T1', 'T2', 'T3'] },
+  { id: 'D03', en: 'Alex Pharma Supply', ar: 'الإسكندرية لإمداد الأدوية', pat: ['ALX*report*.xlsx'], terr: ['T4', 'T6'] },
+  { id: 'D04', en: 'Upper Egypt Distribution', ar: 'الصعيد للتوزيع', pat: ['UE_*.xlsx'], terr: ['T6'] },
+  { id: 'D05', en: 'Canal Healthcare Distribution', ar: 'القناة للرعاية الصحية', pat: ['canal_sales_*.xlsx'], terr: ['T1', 'T2', 'T5'] }];
+const REPS = [
+  { id: 'R1', en: 'Omar Khaled', ar: 'عمر خالد' }, { id: 'R2', en: 'Mona Adel', ar: 'منى عادل' }, { id: 'R3', en: 'Hany Salem', ar: 'هاني سالم' },
+  { id: 'R4', en: 'Dina Fathy', ar: 'دينا فتحي' }, { id: 'R5', en: 'Karim Nabil', ar: 'كريم نبيل' }, { id: 'R6', en: 'Salma Ragab', ar: 'سلمى رجب' },
+  { id: 'R7', en: 'Tarek Mansour', ar: 'طارق منصور' }, { id: 'R8', en: 'Nour Essam', ar: 'نور عصام' }, { id: 'R9', en: 'Yara Samir', ar: 'يارا سمير' }, { id: 'R10', en: 'Ali Gamal', ar: 'علي جمال' }];
+const PROD = [
+  { id: 'P-1001', en: 'Product Alpha 10 mg', ar: 'المنتج ألفا 10 مجم', f: 1.0, prices: [{ from: '2026-01-01', v: 118.5 }] },
+  { id: 'P-1002', en: 'Product Alpha 20 mg', ar: 'المنتج ألفا 20 مجم', f: 0.8, prices: [{ from: '2026-01-01', v: 205.75 }, { from: '2026-07-01', v: 214.5 }] },
+  { id: 'P-1003', en: 'Product Beta 5 mg', ar: 'المنتج بيتا 5 مجم', f: 1.3, prices: [{ from: '2026-01-01', v: 64.25 }] },
+  { id: 'P-1004', en: 'Product Gamma 50 mg', ar: 'المنتج جاما 50 مجم', f: 0.6, prices: [{ from: '2026-01-01', v: 342.0 }, { from: '2026-07-01', v: 355.0 }] },
+  { id: 'P-1005', en: 'Product Delta 100 ml', ar: 'المنتج دلتا 100 مل', f: 0.9, prices: [{ from: '2026-01-01', v: 89.9 }] },
+  { id: 'P-1006', en: 'Product Epsilon 25 mg', ar: 'المنتج إبسيلون 25 مجم', f: 0.7, prices: [{ from: '2026-01-01', v: 156.4 }] }];
+const CUST = [
+  ['Al Shifa Pharmacy', 'صيدلية الشفاء', 'T3', 'D01'], ['Dr. Heba Pharmacy', 'صيدلية د. هبة', 'T5', 'D01'], ['Al Nour Pharmacies', 'صيدليات النور', 'T5', 'D01'],
+  ['Seif Pharmacy', 'صيدلية سيف', 'T5', 'D01'], ['Al Amal Pharmacy', 'صيدلية الأمل', 'T5', 'D01'], ['Misr Care Pharmacy', 'صيدلية مصر كير', 'T4', 'D01'],
+  ['Life Plus Pharmacy', 'صيدلية لايف بلس', 'T1', 'D02'], ['Evergreen Pharmacy', 'صيدلية إيفرجرين', 'T2', 'D02'], ['City Care Pharmacy', 'صيدلية سيتي كير', 'T2', 'D02'],
+  ['Al Salam Pharmacy', 'صيدلية السلام', 'T3', 'D02'], ['Nile Care Pharmacy', 'صيدلية نايل كير', 'T1', 'D02'], ['Al Wafa Pharmacy', 'صيدلية الوفاء', 'T1', 'D02'],
+  ['Medico Plus Pharmacy', 'صيدلية ميديكو بلس', 'T4', 'D03'], ['Good Health Pharmacy', 'صيدلية الصحة الجيدة', 'T4', 'D03'], ['Al Rahma Pharmacy', 'صيدلية الرحمة', 'T6', 'D03'],
+  ['Cairo Care Pharmacy', 'صيدلية كايرو كير', 'T2', 'D05'], ['Delta Care Pharmacy', 'صيدلية دلتا كير', 'T5', 'D05'], ['Alex Life Pharmacy', 'صيدلية أليكس لايف', 'T4', 'D03'],
+  ['Sphinx Pharmacy', 'صيدلية سفنكس', 'T3', 'D02'], ['Palm Pharmacy', 'صيدلية النخيل', 'T6', 'D04'], ['Al Madina Pharmacy', 'صيدلية المدينة', 'T6', 'D04'],
+  ['Hope Pharmacy', 'صيدلية هوب', 'T1', 'D05'], ['Al Baraka Pharmacy', 'صيدلية البركة', 'T6', 'D04'], ['Al Tawfiq Pharmacy', 'صيدلية التوفيق', 'T2', 'D05']
+].map((c, i) => ({ id: 'C' + String(i + 1).padStart(3, '0'), en: c[0], ar: c[1], terr: c[2], dist: c[3] }));
+
+const priceAt = (p, m) => { let v = p.prices[0].v; p.prices.forEach(x => { if (x.from <= m + '-28') v = x.v; }); return v; };
+const byId = (arr, id) => arr.find(x => x.id === id);
+
+/* sales: month x territory x product x distributor */
+const SALES = [];
+const TF = { T1: 1.25, T2: 1.1, T3: 1.0, T4: 0.95, T5: 0.8, T6: 0.65 };
+MONTHS.forEach((m, mi) => TERR.forEach(te => PROD.forEach(p => {
+  const ds = DIST.filter(d => d.terr.includes(te.id));
+  ds.forEach((d, di) => {
+    const base = 60 * TF[te.id] * p.f * (1 + mi * 0.02) * (di ? 0.45 : 0.55);
+    const units = Math.max(8, Math.round(base * (0.8 + R() * 0.45)));
+    SALES.push({ m, terr: te.id, prod: p.id, dist: d.id, units, val: units * priceAt(p, m) });
+  });
+})));
+const actualOf = (m, terr, prod) => SALES.filter(s => s.m === m && (!terr || s.terr === terr) && (!prod || s.prod === prod)).reduce((a, s) => a + s.val, 0);
+
+/* targets & status */
+const TARGETS = {}; const TSTATUS = {}; const TB = { T1: 0.98, T2: 1.07, T3: 0.93, T4: 1.0, T5: 1.12, T6: 0.88 };
+MONTHS.forEach((m, mi) => {
+  TARGETS[m] = [];
+  TERR.forEach(te => PROD.forEach(p => {
+    const ref = actualOf(m, te.id, p.id);
+    TARGETS[m].push({ terr: te.id, prod: p.id, value: Math.round(ref * TB[te.id] * (0.92 + R() * 0.2) / 100) * 100 });
+  }));
+  TSTATUS[m] = m === CUR ? 'draft' : 'approved';
+});
+const SHARES = {
+  T1: [{ rep: 'R1', pct: 33.34 }, { rep: 'R2', pct: 33.33 }, { rep: 'R3', pct: 33.33 }], T2: [{ rep: 'R4', pct: 50 }, { rep: 'R5', pct: 50 }],
+  T3: [{ rep: 'R6', pct: 100 }], T4: [{ rep: 'R7', pct: 60 }, { rep: 'R8', pct: 40 }], T5: [{ rep: 'R9', pct: 100 }], T6: [{ rep: 'R10', pct: 100 }]
+};
+
+/* name similarity for mapping suggestions */
+const norm = s => String(s).toLowerCase().replace(/pharmacies|pharmacy|pharm\.?|phar\.?|صيدلية|صيدليات|br\.?\s*\d+|[^a-z0-9؀-ۿ]+/g, '');
+const bigr = s => { const r = []; for (let i = 0; i < s.length - 1; i++) r.push(s.slice(i, i + 2)); return r; };
+function sim(a, b) { a = norm(a); b = norm(b); if (!a || !b) return 0; if (a === b) return 1; const A = bigr(a), B = bigr(b); let c = 0; const bb = B.slice(); A.forEach(x => { const i = bb.indexOf(x); if (i >= 0) { c++; bb.splice(i, 1); } }); return (2 * c) / (A.length + B.length || 1); }
+function suggest(raw, distId) {
+  return CUST.map(c => ({ id: c.id, score: Math.max(sim(raw, c.en), sim(raw, c.ar)) + (c.dist === distId ? 0.04 : 0) }))
+    .sort((x, y) => y.score - x.score).slice(0, 3).map(x => ({ id: x.id, score: Math.min(0.99, x.score) }));
+}
+
+/* incoming files */
+function mkPreview(seed, n) {
+  const r = rng(seed); const out = [];
+  for (let i = 0; i < n; i++) { const p = PROD[Math.floor(r() * PROD.length)]; out.push({ row: i + 2, date: '2026-09-' + String(1 + Math.floor(r() * 28)).padStart(2, '0'), prod: p.id, units: 5 + Math.floor(r() * 60), price: priceAt(p, CUR) }); }
+  return out;
+}
+const RAW1 = ['Alshifa Pharm - Giza', 'Dr. Heba Pharmacy (Delta)', 'El Nour Pharmacies Br.3', 'Seif Pharm Tanta', 'صيدلية الأمل - طنطا', 'Misr Care Phar.'];
+const RAW2 = ['Alshifa Pharm Nasr City', 'City Care Pharm. Branch 2', 'Evergreen Pharm'];
+const mkMap = (arr, dist) => arr.map((raw, i) => ({ id: dist + '-m' + i, raw, sug: suggest(raw, dist), chosen: null, rule: true }));
+const FILES = [
+  { id: 'F1', name: 'DELTA_SALES_SEP_2026_v3.xlsx', dist: 'D01', recv: '2026-10-03 08:14', via: 'email', rows: 1248, nameChanged: true, map: mkMap(RAW1, 'D01'), uploaded: false, prev: mkPreview(11, 6),
+    errs: [{ id: 'E11', row: 31, field: 'price', val: '118.505', type: 'dec' }, { id: 'E12', row: 77, field: 'price', val: '205.753', type: 'dec' }, { id: 'E13', row: 112, field: 'price', val: '64.255', type: 'dec' }, { id: 'E14', row: 409, field: 'product', val: '', type: 'miss' }, { id: 'E15', row: 655, field: 'product', val: 'P-1099', type: 'prod' }] },
+  { id: 'F2', name: 'CMT-sales-0910.xlsx', dist: 'D02', recv: '2026-10-03 10:42', via: 'email', rows: 2031, nameChanged: false, map: mkMap(RAW2, 'D02'), uploaded: false, prev: mkPreview(22, 6),
+    errs: [...[18, 44, 95, 130, 201, 288, 340, 377, 512, 640, 701, 822].map((r, i) => ({ id: 'E2' + i, row: r, field: 'price', val: (64.25 + i * 7.1 + 0.004).toFixed(3), type: 'dec' })), { id: 'E2x1', row: 903, field: 'customer', val: '', type: 'miss' }] },
+  { id: 'F3', name: 'ALX Sep report final.xlsx', dist: 'D03', recv: '2026-10-03 11:05', via: 'upload', rows: 876, nameChanged: true, map: [], uploaded: false, prev: mkPreview(33, 6), errs: [] },
+  { id: 'F4', name: 'UE_Sep26_(2).xlsx', dist: 'D04', recv: '2026-10-02 15:30', via: 'email', rows: 1502, nameChanged: false, map: [], uploaded: false, prev: mkPreview(44, 6), errs: [] },
+  { id: 'F5', name: 'canal_sales_sept.xlsx', dist: 'D05', recv: '2026-10-02 09:12', via: 'email', rows: 934, nameChanged: false, map: [], uploaded: false, prev: mkPreview(55, 6), errs: [] }];
+const RULES = [
+  { id: 'RL1', raw: 'AL SALAM PHARM', cust: 'C010', dist: 'D02', date: '2026-08-04' }, { id: 'RL2', raw: 'Life+ Pharmacy', cust: 'C007', dist: 'D02', date: '2026-08-04' },
+  { id: 'RL3', raw: 'Nile Care Phar', cust: 'C011', dist: 'D02', date: '2026-08-05' }, { id: 'RL4', raw: 'Alex Life Ph.', cust: 'C018', dist: 'D03', date: '2026-08-07' },
+  { id: 'RL5', raw: 'Medico+ Pharmacy', cust: 'C013', dist: 'D03', date: '2026-08-07' }, { id: 'RL6', raw: 'Palm Pharm', cust: 'C020', dist: 'D04', date: '2026-08-09' },
+  { id: 'RL7', raw: 'Hope Pharm', cust: 'C022', dist: 'D05', date: '2026-08-10' }, { id: 'RL8', raw: 'Cairo Care Ph.', cust: 'C016', dist: 'D05', date: '2026-08-10' }];
+const RUNS = [
+  { id: 'RUN-2026-08-02', cycle: '2026-08', files: 5, rows: 6412, rej: 0, dur: '06:12', status: 'done', date: '2026-09-04 17:40' },
+  { id: 'RUN-2026-07-02', cycle: '2026-07', files: 5, rows: 6188, rej: 0, dur: '05:58', status: 'done', date: '2026-08-04 18:05' }];
+
+/* data catalog */
+const CAT = [];
+(function () {
+  const dom = [['SLS', 'Sales', 'المبيعات'], ['TGT', 'Targets', 'الأهداف'], ['MST', 'Master data', 'البيانات الأساسية'], ['PRC', 'Pricing', 'التسعير'], ['SYS', 'System', 'النظام']];
+  const names = { SLS: ['TRX', 'HDR', 'RETURN', 'ADJ'], TGT: ['HDR', 'ALLOC', 'REV'], MST: ['CUST', 'CUST_ALIAS', 'PRD', 'DIST', 'TERR', 'REP', 'REP_ASSIGN'], PRC: ['PRICE', 'PRICE_HIST', 'DISCOUNT'], SYS: ['UPL_LOG', 'SYNC_JOB', 'AUDIT', 'PARAM'] };
+  const cols = ['ID', 'CODE', 'DATE', 'QTY', 'VALUE', 'STATUS', 'CREATED_BY', 'CREATED_AT'];
+  const r = rng(77);
+  dom.forEach(d => names[d[0]].forEach(n => [2024, 2025, 2026].forEach(y => {
+    if (d[0] !== 'SLS' && d[0] !== 'TGT' && y !== 2026) return;
+    const doc = r() < 0.22;
+    CAT.push({ name: d[0] + '_' + n + (d[0] === 'SLS' || d[0] === 'TGT' ? '_' + y : ''), dom: d[0], domEn: d[1], domAr: d[2], rows: Math.round(500 + r() * 900000), upd: '2026-09-' + String(1 + Math.floor(r() * 28)).padStart(2, '0'), cols: cols.filter(() => r() > 0.25), doc: doc ? (d[1] + ' / ' + n.toLowerCase()) : '' });
+  })));
+})();
+
+/* app state */
+const S = { page: 'home', tab: {}, fileSel: 'F1', mapSel: 'F1', valSel: 'F2', tMonth: CUR, tTerr: '', aMonth: '2026-08', aOpen: {}, sf: { m: '', t: '', p: '', d: '' }, sPage: 0, rType: 'terr', rMetric: 'val', rTab: 'dash', catQ: '', catDoc: '', custQ: '', run: null };
+
+/* months whose figures are loaded: the current cycle appears after its upload completes */
+const AV = () => MONTHS.filter(m => m !== CUR || S.cycLoaded);
+const LM = () => { const a = AV(); return a[a.length - 1]; };
+
+const A = {};
+
+/* ===== ui helpers ===== */
+const IC = {
+  home: 'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z', inbox: 'M22 12h-6l-2 3h-4l-2-3H2 M5.5 5h13l3.5 7v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z',
+  link: 'M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1', check: 'M20 6L9 17l-5-5',
+  upload: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M17 8l-5-5-5 5 M12 3v12', db: 'M3 5c0-1.7 4-3 9-3s9 1.3 9 3-4 3-9 3-9-1.3-9-3z M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5 M3 12c0 1.7 4 3 9 3s9-1.3 9-3',
+  target: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12z M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4z', chart: 'M3 3v18h18 M7 14l4-4 4 4 5-6',
+  table: 'M3 3h18v18H3z M3 9h18 M3 15h18 M9 3v18', bars: 'M6 20V10 M12 20V4 M18 20v-7', tag: 'M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z M7 7h.01',
+  truck: 'M1 3h15v13H1z M16 8h4l3 3v5h-7z M5.5 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4z M18.5 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',
+  users: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.9 M16 3.1a4 4 0 0 1 0 7.8'
+};
+const ic = n => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${IC[n]}"/></svg>`;
+const badge = (c, txt) => `<span class="badge b-${c}">${txt}</span>`;
+const ltr = s => '<bdi dir="ltr">' + s + '</bdi>';
+const unm = f => f.map.filter(m => !m.chosen).length;
+const openErr = f => f.errs.filter(e => !e.done).length;
+const stageOf = f => f.returned ? 'returned' : f.uploaded ? 'uploaded' : unm(f) > 0 ? 'mapping' : openErr(f) > 0 ? 'validation' : 'ready';
+const STG = { returned: ['red', 'st_returned'], mapping: ['amber', 'st_mapping'], validation: ['red', 'st_validation'], ready: ['green', 'st_ready'], uploaded: ['blue', 'st_uploaded'] };
+const stBadge = f => { const s = STG[stageOf(f)]; return badge(s[0], t(s[1])); };
+const distName = id => nm(byId(DIST, id));
+const terrName = id => nm(byId(TERR, id));
+const prodName = id => nm(byId(PROD, id));
+const custName = id => nm(byId(CUST, id));
+const sumRows = (m, k) => SALES.filter(s => s.m === m).reduce((a, s) => a + s[k], 0);
+const targetSum = (m, terr) => TARGETS[m].filter(x => !terr || x.terr === terr).reduce((a, x) => a + x.value, 0);
+
+function toast(msg) { const el = $('#toast'); el.textContent = msg; el.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => el.classList.remove('on'), 2600); }
+function openModal(title, body, foot, wide) {
+  $('#modalBox').className = 'modal' + (wide ? ' wide' : '');
+  $('#modalBox').innerHTML = `<div class="mh"><h2>${title}</h2><button class="x" onclick="A.closeModal()" aria-label="${t('close')}">&times;</button></div><div class="mb">${body}</div>${foot ? `<div class="mf">${foot}</div>` : ''}`;
+  $('#modalBg').classList.add('on');
+}
+function download(name, rows) {
+  const csv = '﻿' + rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\r\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* charts (inline SVG / CSS only) */
+const PAL = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300']; // validated categorical order
+const BRAND = '#830051';
+function barsH(items, opt) {
+  opt = opt || {}; const max = opt.max || Math.max(...items.map(i => i.v), 1);
+  return `<div class="list" style="gap:10px">${items.map(i => {
+    const w = Math.min(100, (i.v / max) * 100); const cls = opt.ach ? (i.v >= 100 ? 'g' : i.v >= 85 ? '' : 'a') : '';
+    return `<div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:3px"><span>${i.l}</span><b>${opt.ach ? i.v.toFixed(1) + '%' : fmt(i.v)}</b></div><div class="bar ${cls}" style="height:10px"><i style="width:${w}%"></i></div></div>`;
+  }).join('')}</div>`;
+}
+function donut(items) {
+  const tot = items.reduce((a, i) => a + i.v, 0) || 1; let off = 0; const r = 52, c = 2 * Math.PI * r;
+  const segs = items.map((i, k) => { const len = (i.v / tot) * c; const s = `<circle cx="70" cy="70" r="${r}" fill="none" stroke="${PAL[k % PAL.length]}" stroke-width="22" stroke-dasharray="${len} ${c - len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"><title>${esc(i.l)}: ${(i.v / tot * 100).toFixed(1)}%</title></circle>`; off += len; return s; }).join('');
+  return `<div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><svg width="140" height="140" viewBox="0 0 140 140">${segs}</svg><div class="legend" style="flex-direction:column;gap:6px;margin:0">${items.map((i, k) => `<span><i style="background:${PAL[k % PAL.length]}"></i>${i.l} — ${(i.v / tot * 100).toFixed(1)}%</span>`).join('')}</div></div>`;
+}
+function lineChart(labels, series) {
+  const W = 520, H = 220, p = 34; const all = series.flatMap(s => s.d); const mx = Math.max(...all) * 1.1, mn = 0;
+  const x = i => p + (i * (W - p * 2)) / (labels.length - 1), y = v => H - p - ((v - mn) / (mx - mn)) * (H - p * 2);
+  let g = ''; for (let k = 0; k <= 4; k++) { const v = mn + ((mx - mn) * k) / 4; g += `<line x1="${p}" x2="${W - p}" y1="${y(v)}" y2="${y(v)}" stroke="#e5e9f0"/><text x="${p - 6}" y="${y(v) + 4}" font-size="10" fill="#667085" text-anchor="end">${fmt(v / 1000)}k</text>`; }
+  const xl = labels.map((l, i) => `<text x="${x(i)}" y="${H - 10}" font-size="10" fill="#667085" text-anchor="middle">${l}</text>`).join('');
+  const ls = series.map((s, k) => `<polyline fill="none" stroke="${k ? '#667085' : BRAND}" stroke-width="2.4" ${k ? 'stroke-dasharray="6 4"' : ''} points="${s.d.map((v, i) => x(i) + ',' + y(v)).join(' ')}"/>` + s.d.map((v, i) => `<circle cx="${x(i)}" cy="${y(v)}" r="3.5" fill="${k ? '#667085' : BRAND}"><title>${esc(s.n)} ${labels[i]}: ${fmt(v)}</title></circle>`).join('')).join('');
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}">${g}${xl}${ls}</svg><div class="legend">${series.map((s, k) => `<span><i style="background:${k ? '#667085' : BRAND}"></i>${s.n}</span>`).join('')}</div>`;
+}
+
+/* ===== pages ===== */
+const NAV = [
+  ['home', 'home', 'nav_home', 'g0'],
+  ['files', 'inbox', 'nav_files', 'g1'], ['mapping', 'link', 'nav_mapping', 'g1'], ['validation', 'check', 'nav_validation', 'g1'], ['runs', 'upload', 'nav_runs', 'g1'], ['catalog', 'db', 'nav_catalog', 'g1'],
+  ['targets', 'target', 'nav_targets', 'g2'], ['achievement', 'chart', 'nav_achievement', 'g2'], ['sales', 'table', 'nav_sales', 'g2'], ['reports', 'bars', 'nav_reports', 'g2'],
+  ['products', 'tag', 'nav_products', 'g3'], ['distributors', 'truck', 'nav_distributors', 'g3'], ['customers', 'users', 'nav_customers', 'g3']];
+const GL = { g1: 'grp_ops', g2: 'grp_perf', g3: 'grp_master' };
+function navBadge(id) {
+  if (id === 'files') return FILES.filter(f => !f.uploaded).length;
+  if (id === 'mapping') return FILES.filter(f => !f.returned).reduce((a, f) => a + unm(f), 0);
+  if (id === 'validation') return FILES.filter(f => !f.returned).reduce((a, f) => a + openErr(f), 0);
+  return 0;
+}
+function renderNav() {
+  let h = '', last = '';
+  NAV.forEach(n => {
+    if (n[3] !== last && GL[n[3]]) h += `<div class="ng">${t(GL[n[3]])}</div>`; last = n[3];
+    const b = navBadge(n[0]);
+    h += `<button class="nb ${S.page === n[0] ? 'on' : ''}" onclick="A.go('${n[0]}')">${ic(n[1])}<span>${t(n[2])}</span>${b ? `<span class="bd ${n[0] === 'validation' || n[0] === 'mapping' ? 'warn' : ''}">${b}</span>` : ''}</button>`;
+  });
+  $('#nav').innerHTML = h;
+}
+const PAGES = {};
+
+PAGES.home = () => {
+  const fs = FILES.filter(f => !f.returned); const dmsOK = !!S.cycLoaded && FILES.every(f => f.uploaded); const um = fs.reduce((a, f) => a + unm(f), 0), oe = fs.reduce((a, f) => a + openErr(f), 0);
+  const allUp = fs.every(f => f.uploaded);
+  const steps = [
+    [t('c_recv'), ltr(fs.length + ' / ' + fs.length), true],
+    [t('c_map'), um ? ltr(um) + ' ' + t('c_pending') : t('c_done'), um === 0],
+    [t('c_val'), oe ? ltr(oe) + ' ' + t('c_pending') : t('c_done'), um === 0 && oe === 0],
+    [t('c_up'), allUp ? t('c_done') : ltr(fs.filter(f => f.uploaded).length + ' / ' + fs.length), allUp],
+    [t('c_ref'), dmsOK ? t('c_done') : t('c_wait'), dmsOK],
+    [t('c_rec'), dmsOK ? t('c_done') : t('c_wait'), dmsOK]];
+  let curSet = false;
+  const stp = steps.map((s, i) => { let cls = 'done'; if (!s[2]) { cls = curSet ? '' : 'cur'; curSet = true; } return `<div class="st ${cls}"><div class="n">${s[2] ? '✓' : i + 1}</div><div class="l">${s[0]}</div><div class="s">${s[1]}</div></div>`; }).join('');
+  const lm = LM(); const act = sumRows(lm, 'val'), tg = targetSum(lm);
+  const attn = FILES.filter(f => !f.uploaded).map(f => `<div class="li clk" onclick="A.openFile('${f.id}')"><span class="dot ${stageOf(f) === 'ready' ? 'g' : stageOf(f) === 'validation' ? 'r' : 'a'}"></span><div class="grow"><div class="t">${esc(f.name)}</div><div class="m">${srcName(f)} · ${fmt(f.rows)} ${t('rows')}</div></div>${stBadge(f)}</div>`).join('') || `<div class="empty">${t('all_clear')}</div>`;
+  const terrBars = barsH(TERR.map(x => ({ l: nm(x), v: pct(actualOf(lm, x.id), targetSum(lm, x.id)) })), { ach: true, max: 130 });
+  return `<div class="card" style="margin-bottom:16px"><div class="hd"><h3>${t('cycle')} — ${mLabel(CUR)}</h3><span class="sp"></span><button class="btn pri" onclick="A.go('runs')">${t('go_runs')}</button></div><div class="stepper">${stp}</div></div>
+  <div class="grid g4" style="margin-bottom:16px">
+   <div class="card kpi click" onclick="A.go('files')"><div class="lb">${t('k_files')}</div><div class="v">${fs.length}</div><div class="d">${ltr(fs.filter(f => f.uploaded).length)} ${t('st_uploaded')}</div></div>
+   <div class="card kpi click" onclick="A.go('mapping')"><div class="lb">${t('k_map')}</div><div class="v">${um}</div><div class="d">${t('k_map_d')}</div></div>
+   <div class="card kpi click" onclick="A.go('validation')"><div class="lb">${t('k_err')}</div><div class="v">${oe}</div><div class="d">${t('k_err_d')}</div></div>
+   <div class="card kpi click" onclick="A.go('achievement')"><div class="lb">${t('k_ach')} — ${mLabel(lm)}</div><div class="v">${pct(act, tg).toFixed(1)}%</div><div class="d">${ltr(fmt(act) + ' / ' + fmt(tg))}</div></div></div>
+  <div class="grid g2"><div class="card"><div class="hd"><h3>${t('attn')}</h3></div><div class="list">${attn}</div></div>
+  <div class="card"><div class="hd"><h3>${t('perf_snap')}</h3><span class="sp"></span><button class="btn sm" onclick="A.go('achievement')">${t('open')}</button></div>${terrBars}</div></div>`;
+};
+
+PAGES.files = () => {
+  const rows = FILES.map(f => `<tr class="row clk" onclick="A.openFile('${f.id}')"><td><b>${esc(f.name)}</b>${f.nameChanged ? ` <span class="badge b-teal" style="margin-inline-start:6px">${t('name_changed')}</span>` : ''}</td><td>${srcName(f)}${f.party ? ` <span class="badge b-gray" style="margin-inline-start:6px">${t('pt_' + f.party.type)}</span>` : ''}</td><td><bdi dir="ltr">${f.recv}</bdi></td><td>${t('via_' + f.via)}</td><td class="num">${fmt(f.rows)}</td><td>${stBadge(f)}</td></tr>`).join('');
+  return `<div class="toolbar"><button class="btn pri" onclick="A.manualUpload()">${ic('upload')} ${t('add_file')}</button><span class="sp"></span>${['email', 'upload', 'portal', 'mobile'].map(v => `<span class="pill" style="background:#f1eef4;color:#3c1053">${t('via_' + v)} <b>${FILES.filter(f => f.via === v).length}</b></span>`).join(' ')}</div>
+  <div class="tw"><table><thead><tr><th>${t('file')}</th><th>${t('source')}</th><th>${t('received')}</th><th>${t('channel')}</th><th class="num">${t('rows')}</th><th>${t('status')}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+};
+
+PAGES.mapping = () => {
+  const tab = S.tab.mapping || 'q';
+  const tabs = `<div class="tabs"><button class="tab ${tab === 'q' ? 'on' : ''}" onclick="A.tab('mapping','q')">${t('queue')}</button><button class="tab ${tab === 'r' ? 'on' : ''}" onclick="A.tab('mapping','r')">${t('rules')} (${RULES.length})</button></div>`;
+  if (tab === 'r') {
+    return tabs + `<div class="tw"><table><thead><tr><th>${t('raw_name')}</th><th>${t('maps_to')}</th><th>${t('distributor')}</th><th>${t('created')}</th><th></th></tr></thead><tbody>${RULES.map(r => `<tr class="row"><td><span class="chip">${esc(r.raw)}</span></td><td>${custName(r.cust)}</td><td>${r.dist ? distName(r.dist) : '—'}</td><td>${dLabel(r.date)}</td><td class="num"><button class="btn sm danger" onclick="A.delRule('${r.id}')">${t('delete')}</button></td></tr>`).join('')}</tbody></table></div>`;
+  }
+  const f = byId(FILES, S.mapSel) || FILES[0];
+  const left = FILES.map(x => `<div class="li clk" style="${x.id === f.id ? 'border-color:var(--teal);background:var(--teal-l)' : ''}" onclick="A.sel('mapSel','${x.id}')"><div class="grow"><div class="t" style="font-size:13px">${esc(x.name)}</div><div class="m">${srcName(x)}</div></div>${unm(x) ? badge('amber', unm(x)) : badge('green', '✓')}</div>`).join('');
+  const optList = CUST.map(c => `<option value="${c.id}">${esc(nm(c))}</option>`).join('');
+  const body = f.map.length ? `<div class="toolbar"><div class="note" style="flex:1">${t('map_help')}</div><button class="btn pri" onclick="A.acceptTop('${f.id}')">${t('accept_top')}</button></div>
+   <div class="tw"><table><thead><tr><th>${t('raw_name')}</th><th>${t('suggestions')}</th><th>${t('maps_to')}</th><th>${t('save_rule')}</th></tr></thead><tbody>${f.map.map(m => `<tr class="row"><td><span class="chip">${esc(m.raw)}</span></td>
+   <td><div class="sugg">${m.sug.map(s => `<button class="sg ${m.chosen === s.id ? 'on' : ''}" onclick="A.choose('${f.id}','${m.id}','${s.id}')">${esc(custName(s.id))}<small>${Math.round(s.score * 100)}%</small></button>`).join('')}</div></td>
+   <td><select onchange="A.choose('${f.id}','${m.id}',this.value)"><option value="">—</option>${optList.replace('value="' + m.chosen + '"', 'value="' + m.chosen + '" selected')}</select></td>
+   <td><input type="checkbox" ${m.rule ? 'checked' : ''} onchange="A.ruleFlag('${f.id}','${m.id}',this.checked)" aria-label="${t('save_rule')}"></td></tr>`).join('')}</tbody></table></div>`
+    : `<div class="card empty">${t('no_unmapped')}</div>`;
+  return tabs + `<div class="split"><div class="list">${left}</div><div>${body}</div></div>`;
+};
+
+PAGES.validation = () => {
+  const tab = S.tab.validation || 'e';
+  const tabs = `<div class="tabs"><button class="tab ${tab === 'e' ? 'on' : ''}" onclick="A.tab('validation','e')">${t('errors')}</button><button class="tab ${tab === 't' ? 'on' : ''}" onclick="A.tab('validation','t')">${t('templates')}</button></div>`;
+  if (tab === 't') {
+    const tpl = [
+      ['tpl_sales', [['f_date', 'type_date', true, ''], ['f_prod', 'type_text', true, 'r_exists'], ['f_cust', 'type_text', true, 'r_mapped'], ['f_units', 'type_int', true, 'r_pos'], ['f_price', 'type_dec', true, 'r_dec2']], 'sales'],
+      ['tpl_price', [['f_prod', 'type_text', true, 'r_exists'], ['f_price', 'type_dec', true, 'r_dec2'], ['f_eff', 'type_date', true, '']], 'price']];
+    return tabs + `<div class="grid g2">${tpl.map(x => `<div class="card"><div class="hd"><h3>${t(x[0])}</h3><span class="sp"></span><button class="btn sm" onclick="A.dlTemplate('${x[2]}')">${t('dl_tpl')}</button></div><div class="tw"><table><thead><tr><th>${t('field')}</th><th>${t('type')}</th><th>${t('required')}</th><th>${t('rule')}</th></tr></thead><tbody>${x[1].map(r => `<tr><td>${t(r[0])}</td><td>${t(r[1])}</td><td>${r[2] ? '✓' : ''}</td><td>${r[3] ? t(r[3]) : '—'}</td></tr>`).join('')}</tbody></table></div></div>`).join('')}</div>`;
+  }
+  const f = byId(FILES, S.valSel) || FILES[0];
+  const sel = `<div class="toolbar"><label class="fld"><span>${t('file')}</span><select onchange="A.sel('valSel',this.value)">${FILES.map(x => `<option value="${x.id}" ${x.id === f.id ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select></label><span class="sp"></span>
+   <button class="btn" onclick="A.exportErrors('${f.id}')" ${f.errs.length ? '' : 'disabled'}>${t('export_err')}</button><button class="btn pri" onclick="A.fixAllDec('${f.id}')" ${f.errs.some(e => !e.done && e.type === 'dec') ? '' : 'disabled'}>${t('fix_all_dec')}</button></div>`;
+  if (unm(f)) return tabs + sel + `<div class="note warn">${t('map_first')} <button class="btn sm" onclick="A.sel('mapSel','${f.id}');A.go('mapping')">${t('go_mapping')}</button></div>`;
+  const total = f.errs.length, open = openErr(f);
+  const prodOpts = PROD.map(p => `<option value="${p.id}">${p.id} — ${esc(nm(p))}</option>`).join('');
+  const rows = f.errs.map(e => {
+    const issue = { dec: t('is_dec'), miss: t('is_miss'), prod: t('is_prod') }[e.type];
+    let fix = '';
+    if (e.done) fix = `${badge('green', t('fixed'))} <span class="chip">${esc(e.fixed)}</span> <button class="btn sm" onclick="A.undoErr('${f.id}','${e.id}')">${t('undo')}</button>`;
+    else if (e.type === 'dec') fix = `<button class="btn sm pri" onclick="A.fixDec('${f.id}','${e.id}')">${t('round2')} → ${fmt2(Math.round(parseFloat(e.val) * 100) / 100)}</button>`;
+    else fix = `<select onchange="A.fixSel('${f.id}','${e.id}',this.value)"><option value="">${t('choose')}</option>${e.field === 'customer' ? (f.dist ? CUST.filter(c => c.dist === f.dist) : CUST).map(c => `<option value="${c.id}">${esc(nm(c))}</option>`).join('') : prodOpts}</select>`;
+    return `<tr class="row"><td class="num">${e.row}</td><td>${t('f_' + e.field)}</td><td><span class="chip">${esc(e.val || '∅')}</span></td><td>${issue}</td><td>${fix}</td></tr>`;
+  }).join('');
+  return tabs + sel + `<div class="grid g3" style="margin-bottom:14px"><div class="card kpi"><div class="lb">${t('rows')}</div><div class="v">${fmt(f.rows)}</div></div><div class="card kpi"><div class="lb">${t('k_err')}</div><div class="v">${open}</div><div class="d">${ltr((total - open) + ' / ' + total)} ${t('fixed')}</div></div><div class="card kpi"><div class="lb">${t('status')}</div><div class="v" style="font-size:18px;margin-top:10px">${stBadge(f)}</div></div></div>`
+    + (total ? `<div class="tw"><table><thead><tr><th class="num">${t('row')}</th><th>${t('field')}</th><th>${t('value')}</th><th>${t('issue')}</th><th>${t('action')}</th></tr></thead><tbody>${rows}</tbody></table></div>` : `<div class="card empty">${t('no_errors')}</div>`);
+};
+
+PAGES.runs = () => {
+  const ready = FILES.filter(f => stageOf(f) === 'ready');
+  const r = S.run;
+  let panel = '';
+  if (r) {
+    const names = ['rs_upload', 'rs_refresh', 'rs_recon'];
+    const stp = names.map((n, i) => `<div class="st ${r.done || r.step > i ? 'done' : r.step === i ? 'cur' : ''}"><div class="n">${r.done || r.step > i ? '✓' : i + 1}</div><div class="l">${t(n)}</div><div class="s">${r.step === i && !r.done ? Math.round(r.prog) + '%' : ''}</div></div>`).join('');
+    panel = `<div class="card" style="margin-bottom:16px"><div class="hd"><h3>${r.id}</h3><span class="sp"></span>${r.done ? badge('green', t('run_done')) : badge('teal', t('run_going'))}</div>${r.step === 1 && !r.done ? `<div class="note warn" style="margin-bottom:10px">${t('dms_busy')}</div>` : ''}<div class="stepper" style="margin-bottom:12px">${stp}</div><div class="bar" style="margin-bottom:12px"><i style="width:${r.done ? 100 : ((r.step + r.prog / 100) / 3) * 100}%"></i></div><div class="logbox">${r.log.map(l => `<div dir="auto">${l[0]} · ${l[2]}${t(l[1])}${l[3]}</div>`).join('')}</div>${r.done ? `<div class="kv" style="margin-top:12px"><b>${t('rows_loaded')}</b><span>${fmt(r.rows)}</span><b>${t('rows_rejected')}</b><span>0</span><b>${t('recon')}</b><span>${badge('green', t('matched'))}</span></div>` : ''}</div>`;
+  }
+  const pick = ready.length ? `<div class="card" style="margin-bottom:16px"><div class="hd"><h3>${t('new_run')}</h3></div><div class="list">${ready.map(f => `<label class="li"><input type="checkbox" class="rf" value="${f.id}" checked><div class="grow"><div class="t">${esc(f.name)}</div><div class="m">${srcName(f)} · ${fmt(f.rows)} ${t('rows')}</div></div>${stBadge(f)}</label>`).join('')}</div><div style="margin-top:12px"><button class="btn pri" onclick="A.startRun()" ${r && !r.done ? 'disabled' : ''}>${t('start_run')}</button></div></div>`
+    : `<div class="card empty" style="margin-bottom:16px">${FILES.every(f => f.uploaded) ? t('all_uploaded') : t('none_ready')}</div>`;
+  const hist = RUNS.map(x => `<tr class="row"><td><b>${x.id}</b></td><td>${mLabel(x.cycle)}</td><td class="num">${x.files}</td><td class="num">${fmt(x.rows)}</td><td class="num">${x.rej}</td><td>${x.dur}</td><td><bdi dir="ltr">${x.date}</bdi></td><td>${badge('green', t('run_done'))}</td></tr>`).join('');
+  return panel + pick + `<div class="card"><div class="hd"><h3>${t('history')}</h3><span class="sp"></span><button class="btn sm" onclick="A.exportRuns()">${t('export')}</button></div><div class="tw"><table><thead><tr><th>${t('run')}</th><th>${t('cycle')}</th><th class="num">${t('k_files')}</th><th class="num">${t('rows_loaded')}</th><th class="num">${t('rows_rejected')}</th><th>${t('duration')}</th><th>${t('date')}</th><th>${t('status')}</th></tr></thead><tbody>${hist}</tbody></table></div></div>`;
+};
+
+PAGES.catalog = () => {
+  const q = S.catQ.toLowerCase();
+  let list = CAT.filter(c => (!q || c.name.toLowerCase().includes(q) || (c.doc || '').toLowerCase().includes(q)) && (!S.catDoc || (S.catDoc === 'y' ? c.doc : !c.doc)));
+  const dc = CAT.filter(c => c.doc).length;
+  return `<div class="grid g3" style="margin-bottom:14px"><div class="card kpi"><div class="lb">${t('cat_tables')}</div><div class="v">${CAT.length}</div></div><div class="card kpi"><div class="lb">${t('cat_doc')}</div><div class="v">${dc}</div></div><div class="card kpi"><div class="lb">${t('cat_undoc')}</div><div class="v">${CAT.length - dc}</div></div></div>
+  <div class="toolbar"><input type="search" id="catQ" placeholder="${t('search')}" value="${esc(S.catQ)}" oninput="A.catSearch(this.value)" style="min-width:260px"><select onchange="A.catDocF(this.value)"><option value="">${t('all')}</option><option value="y" ${S.catDoc === 'y' ? 'selected' : ''}>${t('documented')}</option><option value="n" ${S.catDoc === 'n' ? 'selected' : ''}>${t('undocumented')}</option></select><span class="sp"></span><button class="btn" onclick="A.exportCatalog()">${t('export')}</button></div>
+  <div class="tw"><table><thead><tr><th>${t('table_name')}</th><th>${t('domain')}</th><th class="num">${t('rows')}</th><th>${t('updated')}</th><th>${t('description')}</th></tr></thead><tbody>${list.map(c => `<tr class="row clk" onclick="A.openTable('${c.name}')"><td><span class="chip">${c.name}</span></td><td>${lang === 'ar' ? c.domAr : c.domEn}</td><td class="num">${fmt(c.rows)}</td><td>${dLabel(c.upd)}</td><td>${c.doc ? esc(c.doc) : badge('gray', t('undocumented'))}</td></tr>`).join('') || `<tr><td colspan="5" class="empty">${t('no_results')}</td></tr>`}</tbody></table></div>`;
+};
+
+PAGES.targets = () => {
+  const m = S.tMonth, st = TSTATUS[m], edit = st === 'draft';
+  const prev = MONTHS[MONTHS.indexOf(m) - 1];
+  const stb = { draft: ['gray', 'ts_draft'], submitted: ['amber', 'ts_submitted'], approved: ['green', 'ts_approved'] }[st];
+  const rows = TARGETS[m].filter(x => !S.tTerr || x.terr === S.tTerr).map((x, i) => {
+    const pa = prev ? actualOf(prev, x.terr, x.prod) : 0; const d = pa ? (x.value / pa - 1) * 100 : 0;
+    return `<tr class="row"><td>${terrName(x.terr)}</td><td>${prodName(x.prod)}</td><td class="num">${edit ? `<input type="number" class="inl" value="${x.value}" min="0" step="100" onchange="A.setTarget('${x.terr}','${x.prod}',this.value)">` : fmt(x.value)}</td><td class="num">${prev ? fmt(pa) : '—'}</td><td class="num" style="color:${d >= 0 ? 'var(--green)' : 'var(--red)'}">${prev ? (d >= 0 ? '+' : '') + d.toFixed(1) + '%' : '—'}</td></tr>`;
+  }).join('');
+  const terrs = TERR.filter(x => !S.tTerr || x.id === S.tTerr);
+  const sh = terrs.map(te => `<div class="li"><div class="grow"><div class="t">${nm(te)}</div><div class="m">${SHARES[te.id].map(s => nm(byId(REPS, s.rep)) + ' <bdi dir="ltr">' + s.pct + '%</bdi>').join(' · ')}</div></div><button class="btn sm" onclick="A.editShares('${te.id}')" ${edit ? '' : 'disabled'}>${t('edit_shares')}</button></div>`).join('');
+  const act = st === 'draft' ? `<button class="btn" onclick="A.copyPrev()" ${prev ? '' : 'disabled'}>${t('copy_prev')}</button><button class="btn pri" onclick="A.tStatus('submitted')">${t('submit_review')}</button>`
+    : st === 'submitted' ? `<button class="btn" onclick="A.tStatus('draft')">${t('return_draft')}</button><button class="btn pri" onclick="A.tStatus('approved')">${t('approve')}</button>` : '';
+  return `<div class="toolbar"><label class="fld"><span>${t('period')}</span><select onchange="A.setM('tMonth',this.value)">${MONTHS.map(x => `<option value="${x}" ${x === m ? 'selected' : ''}>${mLabel(x)}</option>`).join('')}</select></label>
+  <label class="fld"><span>${t('territory')}</span><select onchange="A.setM('tTerr',this.value)"><option value="">${t('all')}</option>${TERR.map(x => `<option value="${x.id}" ${S.tTerr === x.id ? 'selected' : ''}>${nm(x)}</option>`).join('')}</select></label>
+  <span>${badge(stb[0], t(stb[1]))}</span><span class="sp"></span>${act}</div>
+  <div class="grid g12"><div class="card"><div class="hd"><h3>${t('reps_shares')}</h3></div><div class="list">${sh}</div></div>
+  <div class="card"><div class="hd"><h3>${t('targets')} — ${mLabel(m)}</h3><span class="sp"></span><b>${t('total')}: ${fmt(targetSum(m, S.tTerr))}</b></div><div class="tw" style="max-height:520px"><table><thead><tr><th>${t('territory')}</th><th>${t('product')}</th><th class="num">${t('target')}</th><th class="num">${t('prev_actual')}</th><th class="num">${t('vs_prev')}</th></tr></thead><tbody>${rows}</tbody></table></div></div></div>`;
+};
+
+function achRows(m) {
+  return TERR.map(te => { const a = actualOf(m, te.id), g = targetSum(m, te.id); return { te, a, g, p: pct(a, g) }; });
+}
+PAGES.achievement = () => {
+  const m = S.aMonth; const rows = achRows(m); const A_ = rows.reduce((a, r) => a + r.a, 0), G_ = rows.reduce((a, r) => a + r.g, 0);
+  const bar = p => `<div class="bar ${p >= 100 ? 'g' : p >= 85 ? '' : 'a'}"><i style="width:${Math.min(100, p)}%"></i></div>`;
+  const body = rows.map(r => {
+    const open = S.aOpen[r.te.id];
+    let h = `<tr class="row clk" onclick="A.toggleAch('${r.te.id}')"><td><b>${open ? '▾' : '▸'} ${nm(r.te)}</b></td><td class="num">${fmt(r.g)}</td><td class="num">${fmt(r.a)}</td><td style="min-width:160px">${bar(r.p)}</td><td class="num"><b>${r.p.toFixed(1)}%</b></td><td class="num"><button class="btn sm" onclick="event.stopPropagation();A.achDetail('${r.te.id}')">${t('details')}</button></td></tr>`;
+    if (open) PROD.forEach(p => { const a = actualOf(m, r.te.id, p.id), g = TARGETS[m].find(x => x.terr === r.te.id && x.prod === p.id).value; h += `<tr class="row" style="background:#fafbfe"><td style="padding-inline-start:34px">${nm(p)}</td><td class="num">${fmt(g)}</td><td class="num">${fmt(a)}</td><td>${bar(pct(a, g))}</td><td class="num">${pct(a, g).toFixed(1)}%</td><td></td></tr>`; });
+    return h;
+  }).join('');
+  return `<div class="toolbar"><label class="fld"><span>${t('period')}</span><select onchange="A.setM('aMonth',this.value)">${AV().map(x => `<option value="${x}" ${x === m ? 'selected' : ''}>${mLabel(x)}</option>`).join('')}</select></label><span class="sp"></span><button class="btn" onclick="A.exportAch()">${t('export')}</button><button class="btn" onclick="window.print()">${t('print')}</button></div>
+  <div class="grid g3" style="margin-bottom:14px"><div class="card kpi"><div class="lb">${t('target')}</div><div class="v">${fmt(G_)}</div></div><div class="card kpi"><div class="lb">${t('actual')}</div><div class="v">${fmt(A_)}</div></div><div class="card kpi"><div class="lb">${t('k_ach')}</div><div class="v">${pct(A_, G_).toFixed(1)}%</div></div></div>
+  <div class="tw"><table><thead><tr><th>${t('territory')}</th><th class="num">${t('target')}</th><th class="num">${t('actual')}</th><th>${t('progress')}</th><th class="num">%</th><th></th></tr></thead><tbody>${body}</tbody></table></div>`;
+};
+
+function salesFiltered() { const f = S.sf; return SALES.filter(s => (s.m !== CUR || S.cycLoaded) && (!f.m || s.m === f.m) && (!f.t || s.terr === f.t) && (!f.p || s.prod === f.p) && (!f.d || s.dist === f.d)); }
+PAGES.sales = () => {
+  const list = salesFiltered(), per = 12, pages = Math.max(1, Math.ceil(list.length / per)); if (S.sPage >= pages) S.sPage = 0;
+  const sl = list.slice(S.sPage * per, S.sPage * per + per);
+  const opt = (arr, v, f) => `<option value="">${t('all')}</option>` + arr.map(x => `<option value="${x.id || x}" ${(x.id || x) === v ? 'selected' : ''}>${f ? f(x) : nm(x)}</option>`).join('');
+  return `<div class="toolbar"><label class="fld"><span>${t('period')}</span><select onchange="A.sfSet('m',this.value)">${opt(AV(), S.sf.m, mLabel)}</select></label>
+  <label class="fld"><span>${t('territory')}</span><select onchange="A.sfSet('t',this.value)">${opt(TERR, S.sf.t)}</select></label>
+  <label class="fld"><span>${t('product')}</span><select onchange="A.sfSet('p',this.value)">${opt(PROD, S.sf.p)}</select></label>
+  <label class="fld"><span>${t('distributor')}</span><select onchange="A.sfSet('d',this.value)">${opt(DIST, S.sf.d)}</select></label><span class="sp"></span><button class="btn" onclick="A.exportSales()">${t('export')}</button></div>
+  <div class="grid g3" style="margin-bottom:14px"><div class="card kpi"><div class="lb">${t('records')}</div><div class="v">${fmt(list.length)}</div></div><div class="card kpi"><div class="lb">${t('units')}</div><div class="v">${fmt(list.reduce((a, s) => a + s.units, 0))}</div></div><div class="card kpi"><div class="lb">${t('value')}</div><div class="v">${fmt(list.reduce((a, s) => a + s.val, 0))}</div></div></div>
+  <div class="tw"><table><thead><tr><th>${t('period')}</th><th>${t('territory')}</th><th>${t('product')}</th><th>${t('distributor')}</th><th class="num">${t('units')}</th><th class="num">${t('value')}</th></tr></thead><tbody>${sl.map(s => `<tr class="row"><td>${mLabel(s.m)}</td><td>${terrName(s.terr)}</td><td>${prodName(s.prod)}</td><td>${distName(s.dist)}</td><td class="num">${fmt(s.units)}</td><td class="num">${fmt(s.val)}</td></tr>`).join('')}</tbody></table>
+  <div class="pgn"><button class="btn sm" onclick="A.sPg(-1)" ${S.sPage ? '' : 'disabled'}>‹</button><span>${S.sPage + 1} / ${pages}</span><button class="btn sm" onclick="A.sPg(1)" ${S.sPage < pages - 1 ? '' : 'disabled'}>›</button></div></div>`;
+};
+
+PAGES.reports = () => {
+  const tab = S.rTab, m = S.aMonth, vk = S.rMetric === 'units' ? 'units' : 'val';
+  const tabs = `<div class="tabs"><button class="tab ${tab === 'dash' ? 'on' : ''}" onclick="A.setM('rTab','dash')">${t('dashboards')}</button><button class="tab ${tab === 'exp' ? 'on' : ''}" onclick="A.setM('rTab','exp')">${t('datasets')}</button></div>`;
+  if (tab === 'exp') {
+    const ds = [['ds_sales', 'sales_clean'], ['ds_targets', 'targets'], ['ds_ach', 'achievement'], ['ds_rules', 'rules'], ['ds_runs', 'runs']];
+    return tabs + `<div class="grid g3">${ds.map(d => `<div class="card"><h3>${t(d[0])}</h3><div class="m" style="color:var(--muted);margin-bottom:12px">${t(d[0] + '_d')}</div><button class="btn" onclick="A.dlDataset('${d[1]}')">${t('download_csv')}</button></div>`).join('')}</div>`;
+  }
+  const terrBars = barsH(TERR.map(x => ({ l: nm(x), v: pct(actualOf(m, x.id), targetSum(m, x.id)) })), { ach: true, max: 130 });
+  const mix = donut(PROD.map(p => ({ l: nm(p), v: SALES.filter(s => s.m === m && s.prod === p.id).reduce((a, s) => a + s[vk], 0) })));
+  const av = AV(); const act = av.map(x => sumRows(x, 'val')), tg = av.map(x => targetSum(x));
+  const trend = lineChart(av.map(x => MN[lang][+x.split('-')[1] - 1]), [{ n: t('actual'), d: act }, { n: t('target'), d: tg }]);
+  const dist = barsH(DIST.map(d => ({ l: nm(d), v: SALES.filter(s => s.m === m && s.dist === d.id).reduce((a, s) => a + s[vk], 0) })));
+  return tabs + `<div class="toolbar"><label class="fld"><span>${t('period')}</span><select onchange="A.setM('aMonth',this.value)">${AV().map(x => `<option value="${x}" ${x === m ? 'selected' : ''}>${mLabel(x)}</option>`).join('')}</select></label>
+  <label class="fld"><span>${t('metric')}</span><select onchange="A.setM('rMetric',this.value)"><option value="val" ${vk === 'val' ? 'selected' : ''}>${t('value')}</option><option value="units" ${vk === 'units' ? 'selected' : ''}>${t('units')}</option></select></label><span class="sp"></span><button class="btn" onclick="window.print()">${t('print')}</button></div>
+  <div class="grid g2"><div class="card"><div class="hd"><h3>${t('rp_terr')}</h3></div>${terrBars}</div><div class="card"><div class="hd"><h3>${t('rp_mix')}</h3></div>${mix}</div>
+  <div class="card"><div class="hd"><h3>${t('rp_trend')}</h3></div>${trend}</div><div class="card"><div class="hd"><h3>${t('rp_dist')}</h3></div>${dist}</div></div>`;
+};
+
+PAGES.products = () => {
+  return `<div class="tw"><table><thead><tr><th>${t('code')}</th><th>${t('product')}</th><th class="num">${t('cur_price')}</th><th>${t('eff_from')}</th><th></th></tr></thead><tbody>${PROD.map(p => { const l = p.prices[p.prices.length - 1]; return `<tr class="row"><td><span class="chip">${p.id}</span></td><td>${nm(p)}</td><td class="num">${fmt2(l.v)}</td><td>${dLabel(l.from)}</td><td class="num"><button class="btn sm" onclick="A.priceHist('${p.id}')">${t('price_hist')}</button></td></tr>`; }).join('')}</tbody></table></div>`;
+};
+PAGES.distributors = () => `<div class="grid g2">${DIST.map(d => { const f = FILES.find(x => x.dist === d.id); return `<div class="card"><div class="hd"><h3>${nm(d)}</h3><span class="sp"></span>${f ? stBadge(f) : ''}</div><div class="kv"><b>${t('territories')}</b><span>${d.terr.map(terrName).join(' · ')}</span><b>${t('file_patterns')}</b><span class="chips">${d.pat.map(p => `<span class="chip">${esc(p)}</span>`).join('')}</span><b>${t('last_file')}</b><span>${f ? esc(f.name) + ' · ' + f.recv : '—'}</span><b>${t('customers')}</b><span>${CUST.filter(c => c.dist === d.id).length}</span></div><div style="margin-top:12px"><button class="btn sm" onclick="A.addPattern('${d.id}')">${t('add_pattern')}</button></div></div>`; }).join('')}</div>`;
+PAGES.customers = () => {
+  const q = S.custQ.toLowerCase(); const list = CUST.filter(c => !q || c.en.toLowerCase().includes(q) || c.ar.includes(q) || c.id.toLowerCase().includes(q));
+  return `<div class="toolbar"><input type="search" placeholder="${t('search')}" value="${esc(S.custQ)}" oninput="A.custSearch(this.value)" style="min-width:260px"><span class="sp"></span><button class="btn pri" onclick="A.addCustomer()">${t('add_customer')}</button></div>
+  <div class="tw"><table><thead><tr><th>${t('code')}</th><th>${t('customer')}</th><th>${t('territory')}</th><th>${t('distributor')}</th><th class="num">${t('aliases')}</th></tr></thead><tbody>${list.map(c => `<tr class="row"><td><span class="chip">${c.id}</span></td><td>${nm(c)}</td><td>${terrName(c.terr)}</td><td>${distName(c.dist)}</td><td class="num">${RULES.filter(r => r.cust === c.id).length}</td></tr>`).join('')}</tbody></table></div>`;
+};
+
+/* ===== handlers, simulation, init ===== */
+let RLN = RULES.length;
+const nowHM = () => { const d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+const nowHMS = () => { const d = new Date(); return nowHM() + ':' + String(d.getSeconds()).padStart(2, '0'); };
+
+let SURF = 'console';
+function render() {
+  document.documentElement.lang = lang; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  ['console', 'portal', 'mobile'].forEach(s => { const el = document.getElementById(s === 'console' ? 'cons' : s); el.style.display = s === SURF ? '' : 'none'; });
+  document.querySelectorAll('#surfBar [data-s]').forEach(b => b.classList.toggle('on', b.dataset.s === SURF));
+  if (SURF === 'console') {
+    renderNav();
+    $('#pgTitle').textContent = t('nav_' + S.page); $('#pgSub').textContent = t('sub_' + S.page);
+    $('#main').innerHTML = PAGES[S.page]();
+    $('#cycPill').textContent = t('cycle') + ' · ' + mLabel(CUR);
+  } else if (SURF === 'portal') renderPortal(); else renderMobile();
+  $('#langBtn').textContent = lang === 'ar' ? 'English' : 'العربية';
+  document.title = t('app_name');
+  document.querySelectorAll('[data-i]').forEach(el => { el.textContent = t(el.getAttribute('data-i')); });
+}
+function refocus(sel) { const el = $(sel); if (el) { el.focus(); const n = el.value.length; try { el.setSelectionRange(n, n); } catch (e) { } } }
+function csvName(n) { return 'comex_' + n + '_' + CUR + '.csv'; }
+
+A.go = p => { S.page = p; SURF = 'console'; render(); window.scrollTo(0, 0); };
+A.surf = s => { SURF = s; A.closeModal(); A.closeDrawer(); render(); window.scrollTo(0, 0); };
+A.tab = (pg, v) => { S.tab[pg] = v; render(); };
+A.sel = (k, v) => { S[k] = v; render(); };
+A.setM = (k, v) => { S[k] = v; render(); };
+A.lang = () => { const d = $('#drawer'); d.style.transition = 'none'; lang = lang === 'en' ? 'ar' : 'en'; A.closeModal(); A.closeDrawer(); render(); setTimeout(() => { d.style.transition = ''; }, 80); };
+A.closeModal = () => { $('#modalBg').classList.remove('on'); };
+A.closeDrawer = () => { $('#drawer').classList.remove('on'); };
+
+/* ---------- files ---------- */
+A.openFile = id => { S.drawerFile = id; drawFile(); };
+function drawFile() {
+  const f = byId(FILES, S.drawerFile); if (!f) return; const st = stageOf(f);
+  const pv = f.prev.map(r => `<tr><td class="num">${r.row}</td><td>${dLabel(r.date)}</td><td>${r.prod}</td><td class="num">${r.units}</td><td class="num">${fmt2(r.price)}</td></tr>`).join('');
+  const nextBtn = st === 'mapping' ? `<button class="btn pri" onclick="A.closeDrawer();A.sel('mapSel','${f.id}');A.go('mapping')">${t('go_mapping')}</button>`
+    : st === 'validation' ? `<button class="btn pri" onclick="A.closeDrawer();A.sel('valSel','${f.id}');A.go('validation')">${t('go_validation')}</button>`
+      : st === 'ready' ? `<button class="btn pri" onclick="A.closeDrawer();A.go('runs')">${t('go_runs')}</button>` : '';
+  $('#drawer').innerHTML = `<div class="mh"><h2>${esc(f.name)}</h2><button class="x" onclick="A.closeDrawer()" aria-label="${t('close')}">&times;</button></div>
+  <div class="mb"><div class="kv" style="margin-bottom:14px"><b>${t('source')}</b><span>${srcName(f)}${f.party ? ' · ' + t('pt_' + f.party.type) : ''}</span><b>${t('received')}</b><span><bdi dir="ltr">${f.recv}</bdi></span><b>${t('channel')}</b><span>${t('via_' + f.via)}</span><b>${t('rows')}</b><span>${fmt(f.rows)}</span><b>${t('status')}</b><span>${stBadge(f)}</span></div>
+  ${f.nameChanged ? `<div class="note" style="margin-bottom:14px">${t('name_changed_note')}</div>` : ''}${f.returned ? `<div class="note err" style="margin-bottom:14px"><b>${t('st_returned')}</b><br>${esc(f.returned.reason)}</div>` : ''}${f.rounded ? `<div class="note" style="margin-bottom:14px">${t('rounded_note')}</div>` : ''}
+  <div class="kv" style="margin-bottom:14px"><b>${t('unmapped')}</b><span>${unm(f)}</span><b>${t('k_err')}</b><span>${openErr(f)}</span></div>
+  <h3 style="margin:0 0 8px;font-size:14px">${t('preview')}</h3><div class="tw"><table style="min-width:0"><thead><tr><th class="num">${t('row')}</th><th>${t('f_date')}</th><th>${t('f_prod')}</th><th class="num">${t('f_units')}</th><th class="num">${t('f_price')}</th></tr></thead><tbody>${pv}</tbody></table></div></div>
+  <div class="mf"><button class="btn" onclick="A.closeDrawer()">${t('close')}</button>${f.returned ? `<button class="btn" onclick="A.unreturn('${f.id}')">${t('restore')}</button>` : (f.party && !f.uploaded ? `<button class="btn danger" onclick="A.returnFile('${f.id}')">${t('return_sender')}</button>` : '')}${nextBtn}</div>`;
+  $('#drawer').classList.add('on');
+}
+A.manualUpload = () => {
+  openModal(t('add_file'), `<div class="list" style="gap:14px"><label class="fld"><span>${t('distributor')}</span><select id="muD">${DIST.map(d => `<option value="${d.id}">${esc(nm(d))}</option>`).join('')}</select></label>
+  <label class="fld"><span>${t('file')}</span><input type="file" id="muF" accept=".xlsx,.xls,.csv"></label><div class="note err" id="muE" style="display:none"></div></div>`,
+    `<button class="btn" onclick="A.closeModal()">${t('cancel')}</button><button class="btn pri" onclick="A.doUpload()">${t('add_file')}</button>`);
+};
+A.doUpload = () => {
+  const fi = $('#muF'), dist = $('#muD').value;
+  if (!fi.files.length) { const e = $('#muE'); e.textContent = t('pick_file'); e.style.display = 'block'; return; }
+  const name = fi.files[0].name; const n = FILES.length + 1; let id = 'F' + n; while (byId(FILES, id)) id += 'x';
+  const cs = CUST.filter(c => c.dist === dist).slice(0, 2);
+  const raws = cs.map((c, i) => c.en.replace('Pharmacy', 'Pharm.') + (i ? ' Br.2' : ''));
+  FILES.unshift({ id, name, dist, recv: '2026-10-05 ' + nowHM(), via: 'upload', rows: 300 + Math.floor(R() * 900), nameChanged: false, map: mkMap(raws, dist), uploaded: false, prev: mkPreview(100 + n, 6), errs: [] });
+  A.closeModal(); S.page = 'files'; render(); toast(t('file_added')); A.openFile(id);
+};
+
+A.returnFile = id => {
+  openModal(t('return_sender'), `<div class="list" style="gap:12px"><label class="fld"><span>${t('reason')}</span><select id="rrS" onchange="document.getElementById('rrT').value=this.value"><option value="">${t('choose')}</option><option value="${t('rr_cols')}">${t('rr_cols')}</option><option value="${t('rr_data')}">${t('rr_data')}</option><option value="${t('rr_period')}">${t('rr_period')}</option></select></label><label class="fld"><span>${t('message_to_sender')}</span><textarea id="rrT" rows="3"></textarea></label><div class="note err" id="rrE" style="display:none"></div></div>`,
+    `<button class="btn" onclick="A.closeModal()">${t('cancel')}</button><button class="btn pri" onclick="A.doReturn('${id}')">${t('return_sender')}</button>`);
+};
+A.doReturn = id => { const v = $('#rrT').value.trim(); if (!v) { const e = $('#rrE'); e.textContent = t('err_req'); e.style.display = 'block'; return; } byId(FILES, id).returned = { reason: v, at: '2026-10-05 ' + nowHM() }; A.closeModal(); A.closeDrawer(); render(); toast(t('returned_ok')); };
+A.unreturn = id => { byId(FILES, id).returned = null; A.closeDrawer(); render(); };
+
+/* ---------- mapping ---------- */
+function syncRule(f, m) {
+  if (m.ruleId) { const i = RULES.findIndex(r => r.id === m.ruleId); if (i >= 0) RULES.splice(i, 1); m.ruleId = null; }
+  if (m.rule && m.chosen) {
+    const id = 'RL' + (++RLN); RULES.push({ id, raw: m.raw, cust: m.chosen, dist: f.dist, date: '2026-10-04' }); m.ruleId = id;
+    let n = 0; FILES.forEach(g => { if (g.dist === f.dist) g.map.forEach(x => { if (x !== m && !x.chosen && x.raw === m.raw) { x.chosen = m.chosen; n++; } }); });
+    if (n) toast(t('rule_applied'));
+  }
+}
+A.choose = (fid, mid, cid) => {
+  const f = byId(FILES, fid), m = f.map.find(x => x.id === mid); m.chosen = cid || null; syncRule(f, m); render();
+  if (cid && !unm(f)) toast(t('map_done'));
+};
+A.ruleFlag = (fid, mid, on) => { const f = byId(FILES, fid), m = f.map.find(x => x.id === mid); m.rule = on; syncRule(f, m); render(); };
+A.acceptTop = fid => { const f = byId(FILES, fid); f.map.forEach(m => { if (!m.chosen && m.sug.length) { m.chosen = m.sug[0].id; syncRule(f, m); } }); render(); toast(t('map_done')); };
+A.delRule = id => {
+  const i = RULES.findIndex(r => r.id === id); if (i >= 0) RULES.splice(i, 1);
+  FILES.forEach(f => f.map.forEach(m => { if (m.ruleId === id) m.ruleId = null; })); render(); toast(t('rule_deleted'));
+};
+
+/* ---------- validation ---------- */
+const errF = (fid, eid) => byId(FILES, fid).errs.find(x => x.id === eid);
+A.fixDec = (fid, eid) => { const e = errF(fid, eid); e.done = true; e.fixed = fmt2(Math.round(parseFloat(e.val) * 100) / 100); render(); };
+A.fixAllDec = fid => { byId(FILES, fid).errs.forEach(e => { if (!e.done && e.type === 'dec') { e.done = true; e.fixed = fmt2(Math.round(parseFloat(e.val) * 100) / 100); } }); render(); toast(t('fixed_all')); };
+A.fixSel = (fid, eid, v) => {
+  if (!v) return; const e = errF(fid, eid); e.done = true; e.fixed = e.field === 'customer' ? custName(v) : v; render();
+};
+A.undoErr = (fid, eid) => { const e = errF(fid, eid); e.done = false; e.fixed = ''; render(); };
+A.exportErrors = fid => {
+  const f = byId(FILES, fid); const is = { dec: t('is_dec'), miss: t('is_miss'), prod: t('is_prod') };
+  download(csvName('errors_' + f.id), [[t('row'), t('field'), t('value'), t('issue'), t('status')], ...f.errs.map(e => [e.row, t('f_' + e.field), e.val, is[e.type], e.done ? t('fixed') : t('open_s')])]);
+};
+A.dlTemplate = k => {
+  const rows = k === 'sales' ? [[t('f_date'), t('f_prod'), t('f_cust'), t('f_units'), t('f_price')], ['2026-09-01', 'P-1001', 'Al Shifa Pharmacy', 10, '118.50']]
+    : [[t('f_prod'), t('f_price'), t('f_eff')], ['P-1001', '118.50', '2026-07-01']];
+  download('comex_template_' + k + '.csv', rows);
+};
+
+/* ---------- runs ---------- */
+A.startRun = () => {
+  if (S.run && !S.run.done) return;
+  const ids = [...document.querySelectorAll('.rf:checked')].map(x => x.value);
+  if (!ids.length) { toast(t('pick_files')); return; }
+  const fs = ids.map(i => byId(FILES, i)); const rows = fs.reduce((a, f) => a + f.rows, 0);
+  const n = RUNS.filter(r => r.cycle === CUR).length + 1;
+  S.run = { id: 'RUN-' + CUR + '-0' + n, step: 0, prog: 0, log: [[nowHMS(), 'lg_start', '', '']], done: false, rows, ids, fi: 0 };
+  render(); clearInterval(S.timer); S.timer = setInterval(runTick, 380);
+};
+function runTick() {
+  const r = S.run; if (!r || r.done) { clearInterval(S.timer); return; }
+  r.prog += 12 + Math.random() * 10;
+  if (r.step === 0) {
+    const per = 100 / r.ids.length;
+    while (r.fi < r.ids.length && r.prog >= (r.fi + 1) * per * 0.9) { const f = byId(FILES, r.ids[r.fi]); r.log.push([nowHMS(), 'lg_rows', esc(f.name) + ' — ' + fmt(f.rows) + ' ', '']); r.fi++; }
+  }
+  if (r.prog >= 100) {
+    r.prog = 0;
+    if (r.step === 0) { r.log.push([nowHMS(), 'lg_refresh', '', '']); r.step = 1; }
+    else if (r.step === 1) { r.log.push([nowHMS(), 'lg_recon', '', ': ' + fmt(r.rows) + ' / ' + fmt(r.rows)]); r.step = 2; }
+    else {
+      r.done = true; r.log.push([nowHMS(), 'lg_done', '', '']);
+      r.ids.forEach(i => { byId(FILES, i).uploaded = true; });
+      RUNS.unshift({ id: r.id, cycle: CUR, files: r.ids.length, rows: r.rows, rej: 0, dur: '00:' + String(8 + r.ids.length).padStart(2, '0'), status: 'done', date: '2026-10-04 ' + nowHM() });
+      if (FILES.every(f => f.uploaded)) S.cycLoaded = true;
+      clearInterval(S.timer); toast(t('run_done'));
+    }
+  }
+  if (S.page === 'runs') render(); else renderNav();
+}
+A.exportRuns = () => download(csvName('runs'), [[t('run'), t('cycle'), t('k_files'), t('rows_loaded'), t('rows_rejected'), t('duration'), t('date')], ...RUNS.map(r => [r.id, r.cycle, r.files, r.rows, r.rej, r.dur, r.date])]);
+
+/* ---------- catalog ---------- */
+A.catSearch = v => { S.catQ = v; render(); refocus('#catQ'); };
+A.catDocF = v => { S.catDoc = v; render(); };
+A.exportCatalog = () => download(csvName('catalog'), [[t('table_name'), t('domain'), t('rows'), t('updated'), t('description')], ...CAT.map(c => [c.name, c.domEn, c.rows, c.upd, c.doc])]);
+A.openTable = name => {
+  const c = CAT.find(x => x.name === name); S.cat = name;
+  openModal(`<span class="chip" style="font-size:14px">${c.name}</span>`, `<div class="kv" style="margin-bottom:14px"><b>${t('domain')}</b><span>${lang === 'ar' ? c.domAr : c.domEn}</span><b>${t('rows')}</b><span>${fmt(c.rows)}</span><b>${t('updated')}</b><span>${dLabel(c.upd)}</span><b>${t('columns')}</b><span class="chips">${c.cols.map(x => `<span class="chip">${x}</span>`).join('')}</span></div>
+  <label class="fld"><span>${t('description')}</span><textarea id="catD" rows="3" placeholder="${t('desc_ph')}">${esc(c.doc)}</textarea></label>`,
+    `<button class="btn" onclick="A.closeModal()">${t('cancel')}</button><button class="btn pri" onclick="A.saveTable()">${t('save')}</button>`);
+};
+A.saveTable = () => { const c = CAT.find(x => x.name === S.cat); c.doc = $('#catD').value.trim(); A.closeModal(); render(); toast(t('saved')); };
+
+/* ---------- targets ---------- */
+A.setTarget = (terr, prod, v) => {
+  const n = Math.round(parseFloat(v)); const x = TARGETS[S.tMonth].find(r => r.terr === terr && r.prod === prod);
+  if (isNaN(n) || n < 0) { toast(t('err_num')); } else x.value = n; render();
+};
+A.copyPrev = () => {
+  const i = MONTHS.indexOf(S.tMonth); if (i < 1) return; const p = MONTHS[i - 1];
+  TARGETS[S.tMonth].forEach(x => { const o = TARGETS[p].find(y => y.terr === x.terr && y.prod === x.prod); if (o) x.value = o.value; }); render(); toast(t('copied'));
+};
+A.tStatus = s => {
+  if (s === 'draft') { TSTATUS[S.tMonth] = 'draft'; render(); toast(t('returned')); return; }
+  const m = S.tMonth;
+  openModal(t(s === 'submitted' ? 'submit_review' : 'approve'), `<div class="kv"><b>${t('period')}</b><span>${mLabel(m)}</span><b>${t('territory')}</b><span>${TERR.length}</span><b>${t('product')}</b><span>${PROD.length}</span><b>${t('total')}</b><span><b>${fmt(targetSum(m))}</b></span></div><p style="margin:14px 0 0">${t(s === 'submitted' ? 'confirm_submit' : 'confirm_approve')}</p>`,
+    `<button class="btn" onclick="A.closeModal()">${t('cancel')}</button><button class="btn pri" onclick="A.tDo('${s}')">${t('confirm')}</button>`);
+};
+A.tDo = s => { TSTATUS[S.tMonth] = s; A.closeModal(); render(); toast(t(s === 'submitted' ? 'submitted_ok' : 'approved_ok')); };
+A.editShares = tid => { S.sh = { tid, rows: SHARES[tid].map(x => ({ ...x })) }; drawShares(); };
+function shTot() { return S.sh.rows.reduce((a, r) => a + (parseFloat(r.pct) || 0), 0); }
+function shOk() { const s = S.sh; const reps = s.rows.map(r => r.rep); return s.rows.length > 0 && Math.abs(shTot() - 100) < 0.005 && new Set(reps).size === reps.length; }
+function shUpd() { const ok = Math.abs(shTot() - 100) < 0.005; $('#shTot').innerHTML = badge(ok ? 'green' : 'red', fmt2(shTot()) + '%'); $('#shSave').disabled = !shOk(); }
+function drawShares() {
+  const s = S.sh;
+  openModal(t('edit_shares') + ' — ' + terrName(s.tid), `<div class="note" style="margin-bottom:14px">${t('shares_help')}</div>
+  ${s.rows.map((r, i) => `<div class="share-row"><select onchange="A.shRep(${i},this.value)">${REPS.map(x => `<option value="${x.id}" ${x.id === r.rep ? 'selected' : ''}>${esc(nm(x))}</option>`).join('')}</select><div class="inrow"><input type="number" class="inl" style="width:104px" min="0" max="100" step="0.01" value="${r.pct}" oninput="A.shPct(${i},this.value)"><span>%</span><button class="btn sm danger" onclick="A.shDel(${i})" aria-label="${t('delete')}">&times;</button></div></div>`).join('')}
+  <div class="toolbar" style="margin-top:12px"><button class="btn sm" onclick="A.shAdd()">+ ${t('add_rep')}</button><button class="btn sm" onclick="A.shEq()">${t('split_equal')}</button><span class="sp"></span><b>${t('total')}:</b> <span id="shTot"></span></div>`,
+    `<button class="btn" onclick="A.closeModal()">${t('cancel')}</button><button class="btn pri" id="shSave" onclick="A.shSave()">${t('save')}</button>`); shUpd();
+}
+A.shRep = (i, v) => { S.sh.rows[i].rep = v; shUpd(); };
+A.shPct = (i, v) => { S.sh.rows[i].pct = v; shUpd(); };
+A.shDel = i => { S.sh.rows.splice(i, 1); drawShares(); };
+A.shAdd = () => { const used = S.sh.rows.map(r => r.rep); const n = REPS.find(r => !used.includes(r.id)); if (n) S.sh.rows.push({ rep: n.id, pct: 0 }); drawShares(); };
+A.shEq = () => {
+  const n = S.sh.rows.length; if (!n) return; const base = Math.floor(10000 / n) / 100; let rem = Math.round((100 - base * n) * 100) / 100;
+  S.sh.rows.forEach((r, i) => { r.pct = i === 0 ? Math.round((base + rem) * 100) / 100 : base; }); drawShares();
+};
+A.shSave = () => { if (!shOk()) return; SHARES[S.sh.tid] = S.sh.rows.map(r => ({ rep: r.rep, pct: parseFloat(r.pct) })); A.closeModal(); render(); toast(t('saved')); };
+
+/* ---------- achievement ---------- */
+A.toggleAch = id => { S.aOpen[id] = !S.aOpen[id]; render(); };
+A.achDetail = tid => {
+  const m = S.aMonth, te = byId(TERR, tid); const a = actualOf(m, tid), g = targetSum(m, tid);
+  const prodRows = PROD.map(p => { const pa = actualOf(m, tid, p.id), pg = TARGETS[m].find(x => x.terr === tid && x.prod === p.id).value; return `<tr><td>${nm(p)}</td><td class="num">${fmt(pg)}</td><td class="num">${fmt(pa)}</td><td class="num">${pct(pa, pg).toFixed(1)}%</td></tr>`; }).join('');
+  const dRows = DIST.filter(d => d.terr.includes(tid)).map(d => { const v = SALES.filter(s => s.m === m && s.terr === tid && s.dist === d.id).reduce((x, s) => x + s.val, 0); return `<tr><td>${nm(d)}</td><td class="num">${fmt(v)}</td><td class="num">${pct(v, a).toFixed(1)}%</td></tr>`; }).join('');
+  const rRows = SHARES[tid].map(s => `<tr><td>${nm(byId(REPS, s.rep))}</td><td class="num">${s.pct}%</td><td class="num">${fmt(g * s.pct / 100)}</td><td class="num">${fmt(a * s.pct / 100)}</td><td class="num">${pct(a, g).toFixed(1)}%</td></tr>`).join('');
+  openModal(nm(te) + ' — ' + mLabel(m), `<div class="grid g3" style="margin-bottom:14px"><div class="card kpi"><div class="lb">${t('target')}</div><div class="v">${fmt(g)}</div></div><div class="card kpi"><div class="lb">${t('actual')}</div><div class="v">${fmt(a)}</div></div><div class="card kpi"><div class="lb">${t('k_ach')}</div><div class="v">${pct(a, g).toFixed(1)}%</div></div></div>
+  <h3 style="font-size:14px">${t('by_product')}</h3><div class="tw" style="margin-bottom:14px"><table style="min-width:0"><thead><tr><th>${t('product')}</th><th class="num">${t('target')}</th><th class="num">${t('actual')}</th><th class="num">%</th></tr></thead><tbody>${prodRows}</tbody></table></div>
+  <h3 style="font-size:14px">${t('by_dist')}</h3><div class="tw" style="margin-bottom:14px"><table style="min-width:0"><thead><tr><th>${t('distributor')}</th><th class="num">${t('actual')}</th><th class="num">${t('share')}</th></tr></thead><tbody>${dRows}</tbody></table></div>
+  <h3 style="font-size:14px">${t('by_rep')}</h3><div class="tw"><table style="min-width:0"><thead><tr><th>${t('rep')}</th><th class="num">${t('share')}</th><th class="num">${t('target')}</th><th class="num">${t('actual')}</th><th class="num">%</th></tr></thead><tbody>${rRows}</tbody></table></div>`,
+    `<button class="btn" onclick="A.closeModal()">${t('close')}</button>`, true);
+};
+A.exportAch = () => {
+  const m = S.aMonth; const rows = [[t('territory'), t('product'), t('target'), t('actual'), '%']];
+  TERR.forEach(te => { rows.push([te.en, '', targetSum(m, te.id), Math.round(actualOf(m, te.id)), pct(actualOf(m, te.id), targetSum(m, te.id)).toFixed(1)]); PROD.forEach(p => { const g = TARGETS[m].find(x => x.terr === te.id && x.prod === p.id).value, a = actualOf(m, te.id, p.id); rows.push([te.en, p.en, g, Math.round(a), pct(a, g).toFixed(1)]); }); });
+  download(csvName('achievement_' + m), rows);
+};
+
+/* ---------- sales / datasets ---------- */
+A.sfSet = (k, v) => { S.sf[k] = v; S.sPage = 0; render(); };
+A.sPg = d => { S.sPage += d; render(); };
+A.exportSales = () => download(csvName('sales'), [[t('period'), t('territory'), t('product'), t('distributor'), t('units'), t('value')], ...salesFiltered().map(s => [s.m, byId(TERR, s.terr).en, byId(PROD, s.prod).en, byId(DIST, s.dist).en, s.units, s.val.toFixed(2)])]);
+A.dlDataset = k => {
+  if (k === 'sales_clean') return download(csvName('sales_clean'), [['month', 'territory', 'product', 'distributor', 'units', 'value'], ...SALES.filter(s => s.m !== CUR || S.cycLoaded).map(s => [s.m, byId(TERR, s.terr).en, byId(PROD, s.prod).en, byId(DIST, s.dist).en, s.units, s.val.toFixed(2)])]);
+  if (k === 'targets') return download(csvName('targets'), [['month', 'territory', 'product', 'target', 'status'], ...MONTHS.flatMap(m => TARGETS[m].map(x => [m, byId(TERR, x.terr).en, byId(PROD, x.prod).en, x.value, TSTATUS[m]]))]);
+  if (k === 'achievement') return download(csvName('achievement'), [['month', 'territory', 'target', 'actual', 'pct'], ...AV().flatMap(m => achRows(m).map(r => [m, r.te.en, r.g, Math.round(r.a), r.p.toFixed(1)]))]);
+  if (k === 'rules') return download(csvName('mapping_rules'), [['raw_name', 'customer_code', 'customer', 'distributor', 'created'], ...RULES.map(r => [r.raw, r.cust, byId(CUST, r.cust).en, (r.dist ? byId(DIST, r.dist).en : ''), r.date])]);
+  if (k === 'runs') return A.exportRuns();
+};
+
+/* ---------- master data ---------- */
+A.priceHist = pid => {
+  S.pp = pid; const p = byId(PROD, pid);
+  openModal(esc(nm(p)) + ' — ' + t('price_hist'), `<div class="note" style="margin-bottom:14px">${t('price_note')}</div>
+  ${p.prices.slice().reverse().map(x => `<div class="price-line"><span>${dLabel(x.from)}</span><b>${fmt2(x.v)}</b></div>`).join('')}
+  <h3 style="font-size:14px;margin:16px 0 8px">${t('new_price')}</h3><div class="inrow" style="flex-wrap:wrap"><label class="fld"><span>${t('eff_from')}</span><input type="date" id="npD"></label><label class="fld"><span>${t('f_price')}</span><input type="text" id="npV" inputmode="decimal" style="width:120px"></label></div><div class="note err" id="npE" style="display:none;margin-top:10px"></div>`,
+    `<button class="btn" onclick="A.closeModal()">${t('close')}</button><button class="btn pri" onclick="A.addPrice()">${t('add_price')}</button>`);
+};
+A.addPrice = () => {
+  const d = $('#npD').value, v = $('#npV').value.trim(), e = $('#npE'); let msg = '';
+  if (!d) msg = t('err_date'); else if (!/^\d+(\.\d{1,2})?$/.test(v) || parseFloat(v) <= 0) msg = t('err_dec2');
+  if (msg) { e.textContent = msg; e.style.display = 'block'; return; }
+  const p = byId(PROD, S.pp); p.prices = p.prices.filter(x => x.from !== d); p.prices.push({ from: d, v: parseFloat(v) }); p.prices.sort((a, b) => (a.from < b.from ? -1 : 1));
+  render(); A.priceHist(S.pp); toast(t('saved'));
+};
+A.addPattern = did => {
+  S.pd = did; openModal(t('add_pattern') + ' — ' + distName(did), `<label class="fld"><span>${t('pattern')}</span><input type="text" id="apP" placeholder="NAME_*.xlsx"></label><div class="note err" id="apE" style="display:none;margin-top:10px"></div>`,
+    `<button class="btn" onclick="A.closeModal()">${t('cancel')}</button><button class="btn pri" onclick="A.savePattern()">${t('save')}</button>`);
+};
+A.savePattern = () => {
+  const v = $('#apP').value.trim(); const d = byId(DIST, S.pd);
+  if (!v || d.pat.includes(v)) { const e = $('#apE'); e.textContent = t(v ? 'err_dup' : 'err_req'); e.style.display = 'block'; return; }
+  d.pat.push(v); A.closeModal(); render(); toast(t('saved'));
+};
+A.custSearch = v => { S.custQ = v; render(); refocus('#main input[type=search]'); };
+A.addCustomer = () => {
+  openModal(t('add_customer'), `<div class="list" style="gap:12px"><label class="fld"><span>${t('name_en')}</span><input type="text" id="acE"></label><label class="fld"><span>${t('name_ar')}</span><input type="text" id="acA" dir="rtl"></label>
+  <label class="fld"><span>${t('territory')}</span><select id="acT">${TERR.map(x => `<option value="${x.id}">${esc(nm(x))}</option>`).join('')}</select></label><label class="fld"><span>${t('distributor')}</span><select id="acD">${DIST.map(x => `<option value="${x.id}">${esc(nm(x))}</option>`).join('')}</select></label><div class="note err" id="acX" style="display:none"></div></div>`,
+    `<button class="btn" onclick="A.closeModal()">${t('cancel')}</button><button class="btn pri" onclick="A.saveCustomer()">${t('save')}</button>`);
+};
+A.saveCustomer = () => {
+  let en = $('#acE').value.trim(), ar = $('#acA').value.trim();
+  if (!en && !ar) { const e = $('#acX'); e.textContent = t('err_req'); e.style.display = 'block'; return; }
+  en = en || ar; ar = ar || en;
+  CUST.push({ id: 'C' + String(CUST.length + 1).padStart(3, '0'), en, ar, terr: $('#acT').value, dist: $('#acD').value }); A.closeModal(); render(); toast(t('saved'));
+};
+
+
+/* ===== partner side: external portal + mobile app (shares state with the console) ===== */
+Object.assign(IC, {
+  cross: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v8 M8 12h8', user: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+  doc: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M8 13h8 M8 17h8', bell: 'M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9 M13.7 21a2 2 0 0 1-3.4 0',
+  help: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3 M12 17h.01', clock: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 6v6l4 2',
+  download: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3', send: 'M22 2L11 13 M22 2l-7 20-4-9-9-4z'
+});
+
+/* ---------- xlsx / csv engine (no libraries) ---------- */
+const TE = new TextEncoder();
+const CRCT = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+const crc32 = u => { let c = 0xFFFFFFFF; for (let i = 0; i < u.length; i++) c = CRCT[(c ^ u[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+function zipStore(files) {
+  const parts = [], cen = []; let off = 0;
+  files.forEach(([name, str]) => {
+    const nb = TE.encode(name), db = TE.encode(str), crc = crc32(db);
+    const lh = new DataView(new ArrayBuffer(30)); lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(12, 0x21, true);
+    lh.setUint32(14, crc, true); lh.setUint32(18, db.length, true); lh.setUint32(22, db.length, true); lh.setUint16(26, nb.length, true);
+    parts.push(new Uint8Array(lh.buffer), nb, db);
+    const ch = new DataView(new ArrayBuffer(46)); ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true); ch.setUint16(14, 0x21, true);
+    ch.setUint32(16, crc, true); ch.setUint32(20, db.length, true); ch.setUint32(24, db.length, true); ch.setUint16(28, nb.length, true); ch.setUint32(42, off, true);
+    cen.push(new Uint8Array(ch.buffer), nb); off += 30 + nb.length + db.length;
+  });
+  const cs = cen.reduce((a, b) => a + b.length, 0); const e = new DataView(new ArrayBuffer(22));
+  e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true); e.setUint32(12, cs, true); e.setUint32(16, off, true);
+  return new Blob([...parts, ...cen, new Uint8Array(e.buffer)], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+}
+const xe = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+function xlsxBlob(rows) {
+  const col = i => String.fromCharCode(65 + i);
+  const sd = rows.map((r, ri) => `<row r="${ri + 1}">` + r.map((v, ci) => typeof v === 'number' ? `<c r="${col(ci)}${ri + 1}"><v>${v}</v></c>` : `<c r="${col(ci)}${ri + 1}" t="inlineStr"><is><t>${xe(v)}</t></is></c>`).join('') + '</row>').join('');
+  const H = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>', M = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main', R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+  return zipStore([
+    ['[Content_Types].xml', H + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>'],
+    ['_rels/.rels', H + `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+    ['xl/workbook.xml', H + `<workbook xmlns="${M}" xmlns:r="${R}"><sheets><sheet name="Sales" sheetId="1" r:id="rId1"/></sheets></workbook>`],
+    ['xl/_rels/workbook.xml.rels', H + `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/worksheet" Target="worksheets/sheet1.xml"/></Relationships>`],
+    ['xl/worksheets/sheet1.xml', H + `<worksheet xmlns="${M}"><sheetData>${sd}</sheetData></worksheet>`]]);
+}
+async function readXlsx(buf) {
+  const dv = new DataView(buf); let i = buf.byteLength - 22; while (i >= 0 && dv.getUint32(i, true) !== 0x06054b50) i--; if (i < 0) throw new Error('zip');
+  const n = dv.getUint16(i + 10, true); let p = dv.getUint32(i + 16, true); const ents = {};
+  for (let k = 0; k < n; k++) {
+    const nl = dv.getUint16(p + 28, true), xl = dv.getUint16(p + 30, true), cl = dv.getUint16(p + 32, true);
+    const name = new TextDecoder().decode(new Uint8Array(buf, p + 46, nl));
+    ents[name] = { method: dv.getUint16(p + 10, true), cs: dv.getUint32(p + 20, true), lho: dv.getUint32(p + 42, true) }; p += 46 + nl + xl + cl;
+  }
+  const get = async name => {
+    const e = ents[name]; if (!e) return null; const q = e.lho; const start = q + 30 + dv.getUint16(q + 26, true) + dv.getUint16(q + 28, true);
+    const data = buf.slice(start, start + e.cs); if (e.method === 0) return new TextDecoder().decode(data);
+    return await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text();
+  };
+  const dp = new DOMParser(); const xml = s => dp.parseFromString(s, 'application/xml');
+  const ss = await get('xl/sharedStrings.xml'); const shared = ss ? [...xml(ss).getElementsByTagName('si')].map(si => [...si.getElementsByTagName('t')].map(x => x.textContent).join('')) : [];
+  const sname = Object.keys(ents).filter(k => /^xl\/worksheets\/sheet\d+\.xml$/.test(k)).sort((a, b) => parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0]))[0];
+  if (!sname) throw new Error('sheet'); const doc = xml(await get(sname)); const rows = [];
+  [...doc.getElementsByTagName('row')].forEach(r => {
+    const out = [];
+    [...r.getElementsByTagName('c')].forEach(c => {
+      const ref = c.getAttribute('r') || ''; const letters = ref.replace(/\d+/g, ''); let ci = 0; for (const ch of letters) ci = ci * 26 + (ch.charCodeAt(0) - 64); ci--;
+      const ty = c.getAttribute('t'); const v = c.getElementsByTagName('v')[0]; let val = null;
+      if (ty === 's' && v) val = shared[+v.textContent]; else if (ty === 'inlineStr') val = [...c.getElementsByTagName('t')].map(x => x.textContent).join('');
+      else if (v) { val = v.textContent; if (ty !== 'str' && ty !== 'b' && val !== '' && !isNaN(val)) val = Number(val); }
+      out[ci < 0 ? out.length : ci] = val;
+    });
+    rows.push(out);
+  });
+  return rows;
+}
+function parseCsv(txt) {
+  txt = txt.replace(/^﻿/, ''); const first = txt.split(/\r?\n/)[0]; const d = first.includes('\t') ? '\t' : (first.split(';').length > first.split(',').length ? ';' : ',');
+  const rows = []; let r = [], f = '', q = false;
+  for (let i = 0; i < txt.length; i++) {
+    const ch = txt[i];
+    if (q) { if (ch === '"') { if (txt[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += ch; }
+    else if (ch === '"') q = true; else if (ch === d) { r.push(f); f = ''; } else if (ch === '\n' || ch === '\r') { if (ch === '\r' && txt[i + 1] === '\n') i++; r.push(f); rows.push(r); r = []; f = ''; } else f += ch;
+  }
+  if (f !== '' || r.length) { r.push(f); rows.push(r); } return rows;
+}
+async function readSheet(file) {
+  const ext = (file.name.split('.').pop() || '').toLowerCase();
+  if (ext === 'csv') return parseCsv(await file.text());
+  if (ext === 'xlsx') return await readXlsx(await file.arrayBuffer());
+  throw new Error('ext');
+}
+
+/* ---------- partner model ---------- */
+const TPL = { pharm: ['date', 'prod', 'units', 'price'], rep: ['date', 'prod', 'cust', 'units', 'price'], dist: ['date', 'prod', 'cust', 'units', 'price'] };
+const ALIAS = { date: ['date', 'saledate', 'salesdate', 'التاريخ'], prod: ['productcode', 'product', 'code', 'sku', 'كودالمنتج', 'المنتج'], cust: ['customer', 'customername', 'pharmacy', 'client', 'العميل'], units: ['units', 'qty', 'quantity', 'الوحدات', 'الكمية'], price: ['unitprice', 'price', 'سعرالوحدة', 'السعر'] };
+const normH = s => String(s == null ? '' : s).toLowerCase().replace(/[^a-z0-9؀-ۿ]+/g, '');
+const listOf = ty => ty === 'pharm' ? CUST : ty === 'rep' ? REPS : DIST;
+const partyObj = pa => byId(listOf(pa.type), pa.id);
+const partyName = pa => nm(partyObj(pa));
+const partyDist = pa => pa.type === 'dist' ? pa.id : pa.type === 'pharm' ? partyObj(pa).dist : '';
+function srcName(f) { return f.party ? partyName(f.party) : distName(f.dist); }
+const U = { p: { party: null, page: 'home', pick: '', pickId: '', up: null, done: null }, m: { party: null, page: 'home', pick: '', pickId: '', up: null, done: null } };
+const PLOG = []; let PSEQ = 0;
+const hash = s => { let h = 7; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; };
+const slug = s => String(s).replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '').toUpperCase();
+const pkey = pa => pa.type + ':' + pa.id;
+function logsFor(pa) {
+  const h = hash(pkey(pa)); const o = partyObj(pa);
+  const seed = { id: 'UP-2026-08-' + String(100 + (h % 400)), key: pkey(pa), name: slug(o.en).slice(0, 22) + '_AUG_2026.xlsx', period: '2026-08', rows: 120 + (h % 900), at: '2026-09-0' + (1 + (h % 4)) + ' 1' + (h % 8) + ':' + String(10 + (h % 40)), via: 'portal', fid: null, seed: true };
+  return [...PLOG.filter(l => l.key === pkey(pa)).slice().reverse(), seed];
+}
+function extStatus(l) {
+  if (l.replaced) return ['gray', 'xs_replaced']; const f = byId(FILES, l.fid); if (!f) return ['green', 'xs_loaded'];
+  if (f.returned) return ['red', 'xs_returned'];
+  return { mapping: ['amber', 'xs_matching'], validation: ['amber', 'xs_checking'], ready: ['blue', 'xs_ready'], uploaded: ['green', 'xs_loaded'] }[stageOf(f)];
+}
+const stepOf = l => { const f = byId(FILES, l.fid); if (!f) return 4; if (f.returned) return -1; return { mapping: 1, validation: 2, ready: 3, uploaded: 4 }[stageOf(f)]; };
+
+/* ---------- pre-check ---------- */
+function pDate(v) {
+  if (v == null || v === '') return null; const iso = (y, m, d) => { const dt = new Date(Date.UTC(+y, +m - 1, +d)); return dt.getUTCFullYear() === +y && dt.getUTCMonth() === +m - 1 && dt.getUTCDate() === +d ? dt.toISOString().slice(0, 10) : null; };
+  if (typeof v === 'number' || /^\d{5}$/.test(String(v).trim())) { const n = +v; if (n > 20000 && n < 80000) return new Date(Date.UTC(1899, 11, 30) + n * 86400000).toISOString().slice(0, 10); return null; }
+  const s = String(v).trim(); let m = s.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})/); if (m) return iso(m[1], m[2], m[3]);
+  m = s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})/); if (m) return iso(m[3], m[2], m[1]); return null;
+}
+const knownNames = () => new Set([...CUST.flatMap(c => [norm(c.en), norm(c.ar)]), ...RULES.map(r => norm(r.raw))]);
+function precheck(rows, pa, period) {
+  const need = TPL[pa.type]; const headers = (rows[0] || []).map(normH); const idx = {};
+  need.forEach(k => { idx[k] = headers.findIndex(h => ALIAS[k].includes(h)); });
+  const body = rows.slice(1).filter(r => r && r.some(c => c != null && String(c).trim() !== ''));
+  const res = { total: body.length, missing: need.filter(k => idx[k] < 0), errs: [], unmatched: [], dec: [], outside: 0, prev: [], bad: new Set() };
+  if (res.missing.length || !body.length) return res;
+  const known = knownNames(), seen = new Set(); const pid = {}; PROD.forEach(p => { pid[p.id.toLowerCase()] = p.id; });
+  const E = (row, field, val, type) => { res.errs.push({ row, field, val: String(val == null ? '' : val), type }); res.bad.add(row); };
+  body.forEach((r, i) => {
+    const row = i + 2; const d = pDate(r[idx.date]); if (!d) E(row, 'date', r[idx.date], 'date'); else if (d.slice(0, 7) !== period) res.outside++;
+    const pc = String(r[idx.prod] == null ? '' : r[idx.prod]).trim(); let prod = '';
+    if (!pc) E(row, 'prod', '', 'miss'); else if (!pid[pc.toLowerCase()]) E(row, 'prod', pc, 'prod'); else prod = pid[pc.toLowerCase()];
+    const u = Number(r[idx.units]); if (r[idx.units] == null || r[idx.units] === '' || !Number.isInteger(u) || u <= 0) E(row, 'units', r[idx.units], 'units');
+    const raw = r[idx.price], pr = Number(raw); let p2 = 0;
+    if (raw == null || raw === '' || isNaN(pr) || pr <= 0) E(row, 'price', raw, 'price');
+    else { p2 = Math.round(pr * 100) / 100; if (Math.abs(pr * 100 - Math.round(pr * 100)) > 1e-6) res.dec.push({ row, val: String(raw) }); }
+    if (pa.type !== 'pharm') {
+      const c = String(r[idx.cust] == null ? '' : r[idx.cust]).trim();
+      if (!c) E(row, 'cust', '', 'miss'); else if (!known.has(norm(c)) && !seen.has(c)) { seen.add(c); res.unmatched.push(c); }
+    }
+    if (res.prev.length < 6 && !res.bad.has(row)) res.prev.push({ row, date: d, prod, units: u, price: p2 });
+  });
+  return res;
+}
+const hasBlock = r => r.missing.length > 0 || r.total === 0 || r.errs.length > 0;
+
+/* ---------- submit ---------- */
+function submitUpload(c) {
+  const s = U[c], u = s.up, pa = s.party, r = u.res; PSEQ++;
+  const fid = 'PF' + PSEQ; const dist = partyDist(pa); const via = c === 'm' ? 'mobile' : 'portal';
+  const map = r.unmatched.map((raw, i) => ({ id: fid + '-m' + i, raw, sug: suggest(raw, dist), chosen: null, rule: true }));
+  const errs = u.round ? [] : r.dec.slice(0, 60).map((e, i) => ({ id: fid + '-e' + i, row: e.row, field: 'price', val: e.val, type: 'dec' }));
+  if (u.replaces) {
+    const old = PLOG.find(l => l.id === u.replaces); if (old) { old.replaced = true; const k = FILES.findIndex(f => f.id === old.fid); if (k >= 0) FILES.splice(k, 1); }
+  }
+  FILES.unshift({ id: fid, name: u.name, dist, party: { type: pa.type, id: pa.id }, recv: '2026-10-05 ' + nowHM(), via, rows: r.total, nameChanged: false, map, uploaded: false, prev: r.prev.map(x => ({ row: x.row, date: x.date || '2026-09-01', prod: x.prod, units: x.units, price: x.price })), errs, period: u.period, rounded: !!u.round && r.dec.length > 0 });
+  const rec = 'UP-' + CUR + '-' + String(PLOG.length + 1).padStart(3, '0');
+  PLOG.push({ id: rec, key: pkey(pa), name: u.name, period: u.period, rows: r.total, at: '2026-10-05 ' + nowHM(), via, fid });
+  s.done = { rec, fid, name: u.name }; s.up = null; s.replaceId = null; render();
+}
+
+/* ---------- shared blocks ---------- */
+function xsBadge(l) { const s = extStatus(l); return badge(s[0], t(s[1])); }
+function tplRows(pa) { return TPL[pa.type].map(k => [t('f_' + k), { date: t('type_date'), prod: t('type_text'), cust: t('type_text'), units: t('type_int'), price: t('type_dec') }[k], { date: '', prod: t('r_exists'), cust: t('r_known'), units: t('r_pos'), price: t('r_dec2') }[k]]); }
+function tplData(pa) {
+  const o = partyObj(pa); const head = TPL[pa.type].map(k => t('f_' + k));
+  const ex = TPL[pa.type].map(k => ({ date: '2026-09-01', prod: 'P-1001', cust: pa.type === 'pharm' ? '' : (CUST[0].en), units: 10, price: 118.5 }[k]));
+  return [head, ex];
+}
+function resultHtml(c) {
+  const s = U[c], u = s.up, r = u.res; const cpt = c === 'm';
+  if (u.busy) return `<div class="pc"><div class="empty">${t('reading')}</div></div>`;
+  if (u.fail) return `<div class="pc"><div class="note err">${t(u.fail)}</div></div>`;
+  const head = `<div class="pc-h">${ic('doc')}<div class="grow"><b>${esc(u.name)}</b><div class="m">${fmt(r.total)} ${t('rows')}</div></div><button class="btn sm" onclick="A.pClear('${c}')">${t('remove')}</button></div>`;
+  if (r.missing.length || !r.total) return `<div class="pc">${head}<div class="note err">${r.total === 0 && !r.missing.length ? t('empty_file') : t('cols_missing') + ': <b>' + r.missing.map(k => t('f_' + k)).join(' · ') + '</b>'}</div><div style="margin-top:10px"><button class="btn" onclick="A.pTpl('${c}','xlsx')">${ic('download')} ${t('dl_xlsx')}</button></div></div>`;
+  const bad = r.bad.size, okRows = r.total - bad;
+  const chips = `<div class="chips2"><div><b>${fmt(okRows)}</b><span>${t('rows_ok')}</span></div><div class="${bad ? 'bad' : ''}"><b>${fmt(bad)}</b><span>${t('rows_fix')}</span></div><div><b>${fmt(r.dec.length)}</b><span>${t('rows_dec')}</span></div><div><b>${fmt(r.unmatched.length)}</b><span>${t('names_match')}</span></div></div>`;
+  const lim = cpt ? 4 : 8; const et = r.errs.slice(0, lim).map(e => `<tr><td class="num">${e.row}</td><td>${t('f_' + e.field)}</td><td><span class="chip">${esc(e.val || '∅')}</span></td><td>${t('xe_' + e.type)}</td></tr>`).join('');
+  const errs = r.errs.length ? `<div class="tw" style="margin-top:10px"><table style="min-width:0"><thead><tr><th class="num">${t('row')}</th><th>${t('field')}</th><th>${t('value')}</th><th>${t('issue')}</th></tr></thead><tbody>${et}</tbody></table></div>${r.errs.length > lim ? `<div class="m" style="margin-top:6px">+${r.errs.length - lim} ${t('more_issues')}</div>` : ''}<div style="margin-top:8px"><button class="btn sm" onclick="A.pErrCsv('${c}')">${t('export_err')}</button></div>` : '';
+  const opts = (r.dec.length ? `<label class="chk"><input type="checkbox" ${u.round ? 'checked' : ''} onchange="A.pRound('${c}',this.checked)"><span>${t('round_opt')}</span></label>` : '') + (r.unmatched.length ? `<div class="note" style="margin-top:8px">${t('names_note')}</div>` : '') + (r.outside ? `<div class="note warn" style="margin-top:8px">${r.outside} ${t('outside_note')}</div>` : '');
+  const st = hasBlock(r) ? `<div class="note err" style="margin-bottom:10px">${t('fix_first')}</div>` : `<div class="note ok" style="margin-bottom:10px">${t('looks_good')}</div>`;
+  return `<div class="pc">${head}${st}${chips}${errs}<div style="margin-top:10px">${opts}</div><div style="margin-top:14px"><button class="btn pri ${cpt ? 'blk' : ''}" onclick="A.pSubmit('${c}')" ${hasBlock(r) ? 'disabled' : ''}>${ic('send')} ${t('submit_file')}</button></div></div>`;
+}
+function dropHtml(c) {
+  const s = U[c], u = s.up; const rid = (u && u.replaces) || s.replaceId; const rep = rid ? PLOG.find(l => l.id === rid) : null;
+  const per = (u ? u.period : (s.period || CUR));
+  return `${rep ? `<div class="note warn" style="margin-bottom:12px">${t('replacing')} <b>${esc(rep.name)}</b>${byId(FILES, rep.fid) && byId(FILES, rep.fid).returned ? ' — ' + esc(byId(FILES, rep.fid).returned.reason) : ''}</div>` : ''}
+  <div class="steps3"><div class="s3"><span>1</span>${t('up_s1')} <button class="btn sm" onclick="A.pTpl('${c}','xlsx')">XLSX</button> <button class="btn sm" onclick="A.pTpl('${c}','csv')">CSV</button></div>
+  <div class="s3"><span>2</span>${t('up_s2')} <select onchange="A.pPeriod('${c}',this.value)">${[CUR, '2026-08'].map(m => `<option value="${m}" ${m === per ? 'selected' : ''}>${mLabel(m)}</option>`).join('')}</select></div>
+  <div class="s3"><span>3</span>${t('up_s3')}</div></div>
+  ${u && !u.fail ? '' : ''}<label class="drop" ondragover="event.preventDefault();this.classList.add('on')" ondragleave="this.classList.remove('on')" ondrop="A.pDrop(event,'${c}')">${ic('upload')}<b>${t('drop_t')}</b><span>${t('drop_s')}</span><input type="file" accept=".xlsx,.csv" onchange="A.pPick_file('${c}',this.files[0])"></label>`;
+}
+function histRows(pa, c, lim) {
+  const L2 = logsFor(pa).slice(0, lim || 99);
+  return L2.map(l => `<tr class="row clk" onclick="A.pDetail('${c}','${l.id}')"><td><b>${esc(l.name)}</b></td><td>${mLabel(l.period)}</td><td class="num">${fmt(l.rows)}</td><td><bdi dir="ltr">${l.at}</bdi></td><td>${xsBadge(l)}</td></tr>`).join('');
+}
+function updatesFor(pa) {
+  const out = [];
+  logsFor(pa).forEach(l => { const f = byId(FILES, l.fid); if (f && f.returned) out.push({ k: 'r', l, txt: t('upd_returned') + ': ' + f.returned.reason }); else if (f && stageOf(f) === 'uploaded') out.push({ k: 'g', l, txt: t('upd_loaded') }); });
+  return out.slice(0, 4);
+}
+function entryHtml(c) {
+  const s = U[c];
+  const cards = ['pharm', 'rep', 'dist'].map(ty => `<button class="pty ${s.pick === ty ? 'on' : ''}" onclick="A.pPickType('${c}','${ty}')">${ic({ pharm: 'cross', rep: 'user', dist: 'truck' }[ty])}<b>${t('pt_' + ty)}</b><span>${t('ptd_' + ty)}</span></button>`).join('');
+  const sel = s.pick ? `<label class="fld" style="margin-top:14px"><span>${t('pt_who')}</span><select onchange="A.pPickId('${c}',this.value)"><option value="">${t('choose')}</option>${listOf(s.pick).map(o => `<option value="${o.id}" ${s.pickId === o.id ? 'selected' : ''}>${esc(nm(o))}</option>`).join('')}</select></label><div style="margin-top:14px"><button class="btn pri blk" ${s.pickId ? '' : 'disabled'} onclick="A.pEnter('${c}')">${t('continue')}</button></div>` : '';
+  return `<div class="entry"><div class="wm2">${wordmark()}</div><h1>${t(c === 'm' ? 'en_title_m' : 'en_title_p')}</h1><p>${t('en_sub')}</p><div class="ptys">${cards}</div>${sel}</div>`;
+}
+const BRANDCFG = { logoSrc: '' };
+function wordmark(light) { return BRANDCFG.logoSrc ? `<img src="${BRANDCFG.logoSrc}" alt="AstraZeneca" style="height:26px">` : `<span class="azw${light ? ' lt' : ''}">${t('az_name')}</span>`; }
+
+/* ---------- web portal ---------- */
+const PNAV = [['home', 'home', 'pn_home'], ['upload', 'upload', 'pn_upload'], ['history', 'clock', 'pn_history'], ['help', 'help', 'pn_help']];
+function renderPortal() {
+  const s = U.p, el = $('#portal');
+  if (!s.party) { el.innerHTML = `<div class="pt-hero">${entryHtml('p')}</div>`; return; }
+  const pa = s.party; const lg = logsFor(pa); const cur = lg.filter(l => l.period === CUR && !l.replaced);
+  let body = '';
+  if (s.done) {
+    body = `<div class="card succ"><div class="tick">✓</div><h2>${t('sent_ok')}</h2><p>${t('sent_sub')}</p><div class="kv" style="max-width:420px;margin:12px auto;text-align:start"><b>${t('receipt')}</b><span>${s.done.rec}</span><b>${t('file')}</b><span>${esc(s.done.name)}</span></div><div><button class="btn pri" onclick="A.pDone('p','history')">${t('pn_history')}</button> <button class="btn" onclick="A.pDone('p','upload')">${t('send_another')}</button></div></div>`;
+  } else if (s.page === 'home') {
+    const upd = updatesFor(pa); const last = cur[0];
+    body = `<div class="grid g3" style="margin-bottom:16px"><div class="card kpi"><div class="lb">${t('cycle')}</div><div class="v" style="font-size:22px">${mLabel(CUR)}</div><div class="d">${last ? xsBadge(last) : badge('amber', t('not_sent'))}</div></div><div class="card kpi"><div class="lb">${t('k_uploads')}</div><div class="v">${cur.length}</div><div class="d">${fmt(cur.reduce((a, l) => a + l.rows, 0))} ${t('rows')}</div></div><div class="card kpi"><div class="lb">${t('k_attn')}</div><div class="v">${updatesFor(pa).filter(u => u.k === 'r').length}</div><div class="d">${t('k_attn_d')}</div></div></div>
+    <div class="grid g12"><div class="card"><div class="hd"><h3>${t('send_file')}</h3></div><p style="margin-top:0;color:var(--muted)">${t('send_file_d')}</p><button class="btn pri" onclick="A.pGo('p','upload')">${ic('upload')} ${t('pn_upload')}</button></div>
+    <div class="card"><div class="hd"><h3>${t('updates')}</h3></div>${upd.length ? `<div class="list">${upd.map(x => `<div class="li clk" onclick="A.pDetail('p','${x.l.id}')"><span class="dot ${x.k}"></span><div class="grow"><div class="t">${esc(x.l.name)}</div><div class="m">${esc(x.txt)}</div></div></div>`).join('')}</div>` : `<div class="empty">${t('no_updates')}</div>`}</div></div>`;
+  } else if (s.page === 'upload') {
+    body = `<div class="card">${dropHtml('p')}${s.up ? resultHtml('p') : ''}</div>`;
+  } else if (s.page === 'history') {
+    body = `<div class="tw"><table><thead><tr><th>${t('file')}</th><th>${t('period')}</th><th class="num">${t('rows')}</th><th>${t('received')}</th><th>${t('status')}</th></tr></thead><tbody>${histRows(pa, 'p')}</tbody></table></div>`;
+  } else {
+    body = `<div class="grid g2"><div class="card"><div class="hd"><h3>${t('help_tpl')} — ${t('pt_' + pa.type)}</h3><span class="sp"></span><button class="btn sm" onclick="A.pTpl('p','xlsx')">XLSX</button><button class="btn sm" onclick="A.pTpl('p','csv')">CSV</button></div><div class="tw"><table style="min-width:0"><thead><tr><th>${t('field')}</th><th>${t('type')}</th><th>${t('rule')}</th></tr></thead><tbody>${tplRows(pa).map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2] || '—'}</td></tr>`).join('')}</tbody></table></div></div>
+    <div class="card"><div class="hd"><h3>${t('help_steps')}</h3></div><ol class="how"><li>${t('how1')}</li><li>${t('how2')}</li><li>${t('how3')}</li><li>${t('how4')}</li></ol></div></div>`;
+  }
+  const nav = PNAV.map(n => `<button class="${s.page === n[0] && !s.done ? 'on' : ''}" onclick="A.pGo('p','${n[0]}')">${ic(n[1])}<span>${t(n[2])}</span></button>`).join('');
+  el.innerHTML = `<div class="pt-head"><div class="wrap"><div class="wm2">${wordmark(true)}</div><span class="pt-prod">${t('portal_name')}</span><span class="sp"></span><span class="pt-who">${ic({ pharm: 'cross', rep: 'user', dist: 'truck' }[pa.type])} ${esc(partyName(pa))} · ${t('pt_' + pa.type)}</span><button class="lnk" onclick="A.pSwitch('p')">${t('switch')}</button></div><div class="wrap pt-nav">${nav}</div></div><div class="wrap pt-body"><h1 class="pt-h1">${s.done ? t('sent_ok') : t(PNAV.find(n => n[0] === s.page)[2])}</h1>${body}</div>`;
+}
+
+/* ---------- mobile app ---------- */
+const MNAV = [['home', 'home', 'pn_home'], ['upload', 'upload', 'mn_send'], ['history', 'clock', 'pn_history'], ['help', 'help', 'mn_help']];
+function renderMobile() {
+  const s = U.m, el = $('#mobile');
+  let inner;
+  if (!s.party) inner = `<div class="mscreen entrym">${entryHtml('m')}</div>`;
+  else {
+    const pa = s.party; const lg = logsFor(pa); const cur = lg.filter(l => l.period === CUR && !l.replaced); let body = '';
+    if (s.done) body = `<div class="succ ms"><div class="tick">✓</div><h2>${t('sent_ok')}</h2><p>${t('sent_sub')}</p><div class="kv" style="grid-template-columns:90px 1fr;text-align:start"><b>${t('receipt')}</b><span>${s.done.rec}</span><b>${t('file')}</b><span style="word-break:break-all">${esc(s.done.name)}</span></div><button class="btn pri blk" style="margin-top:14px" onclick="A.pDone('m','history')">${t('pn_history')}</button><button class="btn blk" style="margin-top:8px" onclick="A.pDone('m','upload')">${t('send_another')}</button></div>`;
+    else if (s.page === 'home') {
+      const upd = updatesFor(pa); const last = cur[0];
+      body = `<div class="mcard hero"><div class="m">${t('cycle')}</div><div class="v">${mLabel(CUR)}</div><div>${last ? xsBadge(last) : badge('amber', t('not_sent'))}</div></div>
+      <button class="btn pri blk big" onclick="A.pGo('m','upload')">${ic('upload')} ${t('send_file')}</button>
+      <div class="mh2">${ic('bell')} ${t('updates')}</div>${upd.length ? upd.map(x => `<div class="mcard li2" onclick="A.pDetail('m','${x.l.id}')"><span class="dot ${x.k}"></span><div><b>${esc(x.l.name)}</b><div class="m">${esc(x.txt)}</div></div></div>`).join('') : `<div class="mcard empty">${t('no_updates')}</div>`}`;
+    } else if (s.page === 'upload') body = `<div class="mcard">${dropHtml('m')}</div>${s.up ? `<div class="mcard">${resultHtml('m')}</div>` : ''}`;
+    else if (s.page === 'history') body = lg.map(l => `<div class="mcard li2" onclick="A.pDetail('m','${l.id}')"><div class="grow"><b style="word-break:break-all">${esc(l.name)}</b><div class="m">${mLabel(l.period)} · ${fmt(l.rows)} ${t('rows')}</div></div>${xsBadge(l)}</div>`).join('');
+    else body = `<div class="mcard"><b>${t('help_tpl')}</b><div style="margin:10px 0">${tplRows(pa).map(r => `<div class="li2 plain"><div class="grow">${r[0]}<div class="m">${r[1]}${r[2] ? ' · ' + r[2] : ''}</div></div></div>`).join('')}</div><button class="btn blk" onclick="A.pTpl('m','xlsx')">${ic('download')} XLSX</button> <button class="btn blk" style="margin-top:8px" onclick="A.pTpl('m','csv')">${ic('download')} CSV</button></div><div class="mcard"><b>${t('help_steps')}</b><ol class="how"><li>${t('how1')}</li><li>${t('how2')}</li><li>${t('how3')}</li><li>${t('how4')}</li></ol></div><button class="btn blk" onclick="A.pSwitch('m')">${t('switch')}</button>`;
+    const tabs = MNAV.map(n => `<button class="${s.page === n[0] && !s.done ? 'on' : ''}" onclick="A.pGo('m','${n[0]}')">${ic(n[1])}<span>${t(n[2])}</span></button>`).join('');
+    inner = `<div class="mtop"><div>${wordmark(true)}<div class="mwho">${esc(partyName(pa))}</div></div></div><div class="mscreen">${body}</div><div class="mtabs">${tabs}</div>`;
+  }
+  el.innerHTML = `<div class="phone">${inner}</div>`;
+}
+
+/* ---------- handlers ---------- */
+A.pPickType = (c, ty) => { U[c].pick = ty; U[c].pickId = ''; render(); };
+A.pPickId = (c, id) => { U[c].pickId = id; render(); };
+A.pEnter = c => { const s = U[c]; if (!s.pickId) return; s.party = { type: s.pick, id: s.pickId }; s.page = 'home'; s.up = null; s.done = null; render(); };
+A.pSwitch = c => { const s = U[c]; s.replaceId = null; s.party = null; s.pick = ''; s.pickId = ''; s.up = null; s.done = null; render(); };
+A.pGo = (c, pg) => { const s = U[c]; s.page = pg; s.done = null; if (pg !== 'upload') { s.up = null; s.replaceId = null; } render(); };
+A.pDone = (c, pg) => { U[c].done = null; U[c].replaceId = null; U[c].page = pg; render(); };
+A.pPeriod = (c, v) => { const u = U[c].up; if (u) { u.period = v; render(); } else U[c].period = v; };
+A.pRound = (c, on) => { U[c].up.round = on; render(); };
+A.pClear = c => { U[c].up = null; render(); };
+A.pDrop = (e, c) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) A.pPick_file(c, f); };
+A.pPick_file = async (c, file) => {
+  if (!file) return; const s = U[c]; const keep = (s.up && s.up.replaces) || s.replaceId; const per = (s.up && s.up.period) || s.period || CUR;
+  s.up = { name: file.name, period: per, round: true, busy: true, replaces: keep }; render();
+  try {
+    const rows = await readSheet(file); s.up.res = precheck(rows, s.party, per); s.up.round = s.up.res.dec.length > 0; s.up.busy = false;
+  } catch (e) { s.up.busy = false; s.up.fail = e.message === 'ext' ? 'err_ext' : 'err_read'; }
+  render();
+};
+A.pSubmit = c => { const u = U[c].up; if (!u || !u.res || hasBlock(u.res)) return; submitUpload(c); };
+A.pErrCsv = c => { const u = U[c].up; download(csvName('upload_issues'), [[t('row'), t('field'), t('value'), t('issue')], ...u.res.errs.map(e => [e.row, t('f_' + e.field), e.val, t('xe_' + e.type)])]); };
+A.pTpl = (c, fm) => {
+  const rows = tplData(U[c].party); const base = 'comex_' + U[c].party.type + '_sales_template';
+  if (fm === 'csv') return download(base + '.csv', rows);
+  const a = document.createElement('a'); a.href = URL.createObjectURL(xlsxBlob(rows)); a.download = base + '.xlsx'; document.body.appendChild(a); a.click(); a.remove();
+};
+A.pDetail = (c, id) => {
+  const pa = U[c].party; const l = logsFor(pa).find(x => x.id === id); if (!l) return; const f = byId(FILES, l.fid); const st = stepOf(l);
+  const steps = ['xt_recv', 'xt_match', 'xt_check', 'xt_loaded'];
+  const tl = `<div class="tl">${steps.map((k, i) => `<div class="${st === -1 ? (i === 0 ? 'done' : '') : (i + 1 < st ? 'done' : i + 1 === st ? (st === 4 ? 'done' : 'cur') : '')}"><i>${(st !== -1 && (i + 1 < st || st === 4)) || (st === -1 && i === 0) ? '✓' : i + 1}</i><span>${t(k)}</span></div>`).join('')}</div>`;
+  const ret = f && f.returned ? `<div class="note err" style="margin:12px 0"><b>${t('xs_returned')}</b><br>${esc(f.returned.reason)}</div>` : '';
+  openModal(esc(l.name), `<div class="kv" style="margin-bottom:12px"><b>${t('receipt')}</b><span>${l.id}</span><b>${t('period')}</b><span>${mLabel(l.period)}</span><b>${t('rows')}</b><span>${fmt(l.rows)}</span><b>${t('received')}</b><span><bdi dir="ltr">${l.at}</bdi></span><b>${t('channel')}</b><span>${t('via_' + l.via)}</span><b>${t('status')}</b><span>${xsBadge(l)}</span></div>${tl}${ret}`,
+    `<button class="btn" onclick="A.closeModal()">${t('close')}</button>${f && f.returned ? `<button class="btn pri" onclick="A.pReplace('${c}','${l.id}')">${t('up_corrected')}</button>` : ''}`);
+};
+A.pReplace = (c, id) => { A.closeModal(); const s = U[c]; s.page = 'upload'; s.done = null; s.up = null; s.replaceId = id; const l = PLOG.find(x => x.id === id); s.period = l ? l.period : CUR; render(); };
+
+/* ---------- init ---------- */
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { A.closeModal(); A.closeDrawer(); } });
+if (/ar/.test(location.hash)) lang = 'ar';
+render();
+
+
+</script>
+</body>
+</html>
