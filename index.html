@@ -288,6 +288,9 @@ tr.pm td{background:#fff8ec}
 
 .tw table.wide td:nth-child(2){min-width:180px}.tw table.wide{min-width:1120px}
 
+.stk{display:flex;height:10px;border-radius:5px;overflow:hidden;background:#eef1f6;gap:2px}
+.stk i{display:block;height:100%}
+
 </style>
 </head>
 <body>
@@ -524,6 +527,9 @@ Object.assign(L, {
   nav_batches: ['Change Log', 'سجل التغييرات'], sub_batches: ['Every bulk change is recorded and the latest one can be undone', 'كل تغيير جماعي مسجّل ويمكن التراجع عن آخر تغيير'],
   gs_btn: ['Search everything', 'بحث شامل'],
   /* pending mapping */
+  rp_incoming: ['incoming files', 'الملفات الواردة'], rp_files: ['Incoming files this cycle', 'الملفات الواردة في هذه الدورة'],
+  lg_mapped: ['Mapped to a brick', 'مطابق ومربوط ببريك'], no_brick: ['No brick yet', 'بدون بريك بعد'], rp_all_files: ['all incoming files', 'كل الملفات الواردة'],
+  rp_recv_note: ['Every row received, mapped or not', 'كل صف وصل، سواء طُوبق أم لا'], rp_brick_all: ['Received sales by brick', 'المبيعات المستلمة حسب البريك'],
   pm_cat: ['Pending Mapping', 'بانتظار المطابقة'], pm_badge: ['Pending Mapping', 'بانتظار المطابقة'], pm_loaded: ['Loaded as Pending Mapping', 'محمّل كبانتظار المطابقة'],
   pm_not_attr: ['Shown in reports and sales records, but not credited to any brick or representative until the codes are linked.', 'تظهر في التقارير وسجل المبيعات، لكنها لا تُحتسب لأي بريك أو مندوب إلى أن تُربط الأكواد.'],
   pm_opt: ['Load files that still have unmapped codes', 'السماح بتحميل ملفات بها أكواد لم تُطابق بعد'], pm_opt_d: ['Rows of unmapped codes are loaded into the Pending Mapping category instead of blocking the file.', 'صفوف الأكواد غير المطابقة تُحمّل في فئة «بانتظار المطابقة» بدل إيقاف الملف.'],
@@ -599,6 +605,8 @@ Object.assign(L, {
   wq_nobrick: ['Customers without a brick', 'عملاء بدون بريك'], wq_nobrick_d: ['Their sales cannot be credited to a brick. Export the list, fill the brick and upload it back.', 'مبيعاتهم لا تُحتسب لأي بريك. صدّر القائمة واملأ البريك وارفعها مرة أخرى.'],
   wq_help: ['Everything the rules could resolve is already resolved. Only these exceptions need a person.', 'كل ما أمكن حله بالقواعد تم حله بالفعل. هذه الاستثناءات فقط تحتاج شخصًا.']
 });
+
+L.rp_mix=['Received sales by product','المبيعات المستلمة حسب المنتج'];L.rp_dist=['Received sales by distributor','المبيعات المستلمة حسب الموزع'];L.rp_trend=['Actual, target and received','الفعلي والهدف والمستلم'];
 
 /* ===== core helpers & data ===== */
 let lang = 'en';
@@ -796,7 +804,7 @@ const CAT = [];
 })();
 
 /* app state */
-const S = { page: 'home', tab: {}, fileSel: 'F1', mapSel: 'F1', valSel: 'F2', tMonth: CUR, tTerr: '', tBrand: '', tTab: 'brick', aMonth: '2026-08', aView: 'brick', aExc: false, aOpen: {}, sf: { m: '', t: '', p: '', d: '' }, sPage: 0, rType: 'terr', rMetric: 'val', rTab: 'dash', catQ: '', catDoc: '', custQ: '', mapQ: '', run: null,
+const S = { page: 'home', tab: {}, fileSel: 'F1', mapSel: 'F1', valSel: 'F2', tMonth: CUR, tTerr: '', tBrand: '', tTab: 'brick', aMonth: '2026-08', rMonth: CUR, aView: 'brick', aExc: false, aOpen: {}, sf: { m: '', t: '', p: '', d: '' }, sPage: 0, rType: 'terr', rMetric: 'val', rTab: 'dash', catQ: '', catDoc: '', custQ: '', mapQ: '', run: null,
   hold: false, pendOK: true, pendRes: [], q: {}, maxRows: 500000, pend: [], bulkT: 80, ver: { n: 1, at: '2026-10-04 17:40', run: 'RUN-2026-08-02' }, rpFrom: MONTHS[0] };
 
 /* months whose figures are loaded: the current cycle appears after its upload completes */
@@ -933,18 +941,28 @@ function barsH(items, opt) {
     return `<div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:3px"><span>${i.l}</span><b>${opt.ach ? i.v.toFixed(1) + '%' : fmt(i.v)}</b></div><div class="bar ${cls}" style="height:10px"><i style="width:${w}%"></i></div></div>`;
   }).join('')}</div>`;
 }
+
+const C_MAP = PAL[0], C_PEND = PAL[3];
+/* stacked bars: mapped part + Pending Mapping part, one row per item, so the whole received total is visible */
+function stackH(items) {
+  const max = Math.max(...items.map(i => i.a + i.b), 1);
+  const rows = items.map(i => { const tot = i.a + i.b, wa = (i.a / max) * 100, wb = (i.b / max) * 100;
+    return `<div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:3px"><span>${i.l}</span><b>${ltr(fmt(tot))}</b></div><div class="stk"><i style="width:${wa}%;background:${C_MAP}" title="${t('lg_mapped')}: ${fmt(i.a)}"></i><i style="width:${wb}%;background:${C_PEND}" title="${t('pm_cat')}: ${fmt(i.b)}"></i></div></div>`; }).join('');
+  return `<div class="list" style="gap:10px">${rows}</div><div class="legend"><span><i style="background:${C_MAP}"></i>${t('lg_mapped')}</span><span><i style="background:${C_PEND}"></i>${t('pm_cat')}</span></div>`;
+}
 function donut(items) {
   const tot = items.reduce((a, i) => a + i.v, 0) || 1; let off = 0; const r = 52, c = 2 * Math.PI * r;
   const segs = items.map((i, k) => { const len = (i.v / tot) * c; const s = `<circle cx="70" cy="70" r="${r}" fill="none" stroke="${PAL[k % PAL.length]}" stroke-width="22" stroke-dasharray="${len} ${c - len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"><title>${esc(i.l)}: ${(i.v / tot * 100).toFixed(1)}%</title></circle>`; off += len; return s; }).join('');
   return `<div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><svg width="140" height="140" viewBox="0 0 140 140">${segs}</svg><div class="legend" style="flex-direction:column;gap:6px;margin:0">${items.map((i, k) => `<span><i style="background:${PAL[k % PAL.length]}"></i>${i.l} — ${(i.v / tot * 100).toFixed(1)}%</span>`).join('')}</div></div>`;
 }
+const LC = [BRAND, '#667085', PAL[2]];
 function lineChart(labels, series) {
   const W = 520, H = 220, p = 34; const all = series.flatMap(s => s.d); const mx = Math.max(...all) * 1.1, mn = 0;
   const x = i => p + (i * (W - p * 2)) / (labels.length - 1), y = v => H - p - ((v - mn) / (mx - mn)) * (H - p * 2);
   let g = ''; for (let k = 0; k <= 4; k++) { const v = mn + ((mx - mn) * k) / 4; g += `<line x1="${p}" x2="${W - p}" y1="${y(v)}" y2="${y(v)}" stroke="#e5e9f0"/><text x="${p - 6}" y="${y(v) + 4}" font-size="10" fill="#667085" text-anchor="end">${fmt(v / 1000)}k</text>`; }
   const xl = labels.map((l, i) => `<text x="${x(i)}" y="${H - 10}" font-size="10" fill="#667085" text-anchor="middle">${l}</text>`).join('');
-  const ls = series.map((s, k) => `<polyline fill="none" stroke="${k ? '#667085' : BRAND}" stroke-width="2.4" ${k ? 'stroke-dasharray="6 4"' : ''} points="${s.d.map((v, i) => x(i) + ',' + y(v)).join(' ')}"/>` + s.d.map((v, i) => `<circle cx="${x(i)}" cy="${y(v)}" r="3.5" fill="${k ? '#667085' : BRAND}"><title>${esc(s.n)} ${labels[i]}: ${fmt(v)}</title></circle>`).join('')).join('');
-  return `<svg class="chart" viewBox="0 0 ${W} ${H}">${g}${xl}${ls}</svg><div class="legend">${series.map((s, k) => `<span><i style="background:${k ? '#667085' : BRAND}"></i>${s.n}</span>`).join('')}</div>`;
+  const ls = series.map((s, k) => `<polyline fill="none" stroke="${LC[k] || '#667085'}" stroke-width="2.4" ${k === 1 ? 'stroke-dasharray="6 4"' : ''} points="${s.d.map((v, i) => x(i) + ',' + y(v)).join(' ')}"/>` + s.d.map((v, i) => `<circle cx="${x(i)}" cy="${y(v)}" r="3.5" fill="${LC[k] || '#667085'}"><title>${esc(s.n)} ${labels[i]}: ${fmt(v)}</title></circle>`).join('')).join('');
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}">${g}${xl}${ls}</svg><div class="legend">${series.map((s, k) => `<span><i style="background:${LC[k] || '#667085'}"></i>${s.n}</span>`).join('')}</div>`;
 }
 
 /* ===== pages ===== */
@@ -1203,22 +1221,28 @@ PAGES.sales = () => {
 };
 
 PAGES.reports = () => {
-  const tab = S.rTab, m = S.aMonth, vk = S.rMetric === 'units' ? 'units' : 'val';
+  const tab = S.rTab, m = S.rMonth, vk = S.rMetric === 'units' ? 'units' : 'val';
   const tabs = `<div class="tabs"><button class="tab ${tab === 'dash' ? 'on' : ''}" onclick="A.setM('rTab','dash')">${t('dashboards')}</button><button class="tab ${tab === 'exp' ? 'on' : ''}" onclick="A.setM('rTab','exp')">${t('datasets')}</button></div>`;
   if (tab === 'exp') {
     const ds = [['ds_sales', 'sales_clean'], ['ds_targets', 'targets'], ['ds_ach', 'achievement'], ['ds_rep', 'rep_ach'], ['ds_alloc', 'alloc'], ['ds_rules', 'rules'], ['ds_runs', 'runs']];
     return tabs + stamp() + `<div class="hold" style="margin:14px 0"><span><b>${t('max_rows')}</b><br><small>${t('max_rows_d')}</small></span><span class="sp"></span><input type="number" class="inl" min="1000" step="1000" value="${S.maxRows}" onchange="A.maxRowsSet(this.value)" style="width:130px"></div><div class="grid g3" style="margin-top:14px">${ds.map(d => `<div class="card"><h3>${t(d[0])}</h3><div class="m" style="color:var(--muted);margin-bottom:12px">${t(d[0] + '_d')}</div><button class="btn" onclick="A.dlDataset('${d[1]}')">${t('download_csv')}</button></div>`).join('')}</div>`;
   }
-  const terrBars = barsH(TERR.map(x => ({ l: nm(x), v: pct(actualOf(m, x.id), fullTarget(m, x.id)) })), { ach: true, max: 130 });
-  const mix = donut(PROD.map(p => ({ l: nm(p), v: SALES.filter(s => s.m === m && s.prod === p.id).reduce((a, s) => a + s[vk], 0) + pendRows(m).filter(x => x.prod === p.id).reduce((a, x) => a + x[vk], 0) })));
-  const av = AV(); const act = av.map(x => sumRows(x, 'val')), tg = av.map(x => fullTarget(x));
-  const trend = lineChart(av.map(x => MN[lang][+x.split('-')[1] - 1]), [{ n: t('actual'), d: act }, { n: t('target'), d: tg }]);
-  const dist = barsH(DIST.map(d => ({ l: nm(d), v: SALES.filter(s => s.m === m && s.dist === d.id).reduce((a, s) => a + s[vk], 0) + pendRows(m).filter(x => x.dist === d.id).reduce((a, x) => a + x[vk], 0) })));
-  const pmK = pendSum(m, 'val'); const pmStrip = pmK ? `<div class="grid g3" style="margin:14px 0"><div class="card kpi"><div class="lb">${t('mapped_total')}</div><div class="v">${fmt(sumRows(m, 'val'))}</div></div><div class="card kpi click" onclick="A.go('mapping')"><div class="lb">${t('pm_cat')}</div><div class="v">${fmt(pmK)}</div><div class="d">${ltr(pct(pmK, pmTotal(m)).toFixed(1) + '%')} ${t('of_received')}</div></div><div class="card kpi"><div class="lb">${t('received_total')}</div><div class="v">${fmt(pmTotal(m))}</div></div></div>` : '';
-  return tabs + `<div class="toolbar"><label class="fld"><span>${t('period')}</span><select onchange="A.setM('aMonth',this.value)">${AV().map(x => `<option value="${x}" ${x === m ? 'selected' : ''}>${mLabel(x)}</option>`).join('')}</select></label>
-  <label class="fld"><span>${t('metric')}</span><select onchange="A.setM('rMetric',this.value)"><option value="val" ${vk === 'val' ? 'selected' : ''}>${t('value')}</option><option value="units" ${vk === 'units' ? 'selected' : ''}>${t('units')}</option></select></label><span class="sp"></span><button class="btn" onclick="window.print()">${t('print')}</button></div>${stamp()}${pmStrip}
-  <div class="grid g2" style="margin-top:14px"><div class="card"><div class="hd"><h3>${t('rp_terr')}</h3></div>${terrBars}</div><div class="card"><div class="hd"><h3>${t('rp_mix')}</h3></div>${mix}</div>
-  <div class="card"><div class="hd"><h3>${t('rp_trend')}</h3></div>${trend}</div><div class="card"><div class="hd"><h3>${t('rp_dist')}</h3></div>${dist}</div></div>`;
+  const mdl = rcvModel(m); const sv = (rows, k) => rows.reduce((a, x) => a + x[k], 0);
+  const terrBars = barsH(TERR.map(x => ({ l: nm(x), v: pct(sv(mdl.map.filter(s => s.terr === x.id), 'val'), fullTarget(m, x.id)) })), { ach: true, max: 130 });
+  const pmV = sv(mdl.pend, 'val'), pmU = sv(mdl.pend, 'units');
+  const brickAll = stackH([...TERR.map(x => ({ l: nm(x), a: sv(mdl.map.filter(s => s.terr === x.id), vk), b: 0 })), ...(pmV ? [{ l: t('no_brick'), a: 0, b: vk === 'val' ? pmV : pmU }] : [])]);
+  const prodAll = stackH(PROD.map(p => ({ l: nm(p), a: sv(mdl.map.filter(s => s.prod === p.id), vk), b: sv(mdl.pend.filter(x => x.prod === p.id), vk) })));
+  const distAll = stackH(DIST.map(d => ({ l: nm(d), a: sv(mdl.map.filter(s => s.dist === d.id), vk), b: sv(mdl.pend.filter(x => x.dist === d.id), vk) })).filter(i => i.a + i.b > 0));
+  const mm = MONTHS.map(x => rcvModel(x)); const act = mm.map(x => sv(x.map, 'val')), tg = MONTHS.map(x => fullTarget(x)), rcv = mm.map((x, i) => act[i] + sv(x.pend, 'val'));
+  const trend = lineChart(MONTHS.map(x => MN[lang][+x.split('-')[1] - 1]), [{ n: t('actual'), d: act }, { n: t('target'), d: tg }, { n: t('received_total'), d: rcv }]);
+  const mp = sv(mdl.map, 'val'), tot = mp + pmV;
+  const pmStrip = `<div class="grid g3" style="margin:14px 0"><div class="card kpi"><div class="lb">${t('received_total')} · ${t('rp_all_files')}</div><div class="v">${fmt(tot)}</div><div class="d">${t('rp_recv_note')}</div></div><div class="card kpi"><div class="lb">${t('mapped_total')}</div><div class="v">${fmt(mp)}</div><div class="d">${ltr(pct(mp, tot || 1).toFixed(1) + '%')} ${t('of_received')}</div></div><div class="card kpi ${pmV ? 'click' : ''}" ${pmV ? `onclick="A.go('mapping')"` : ''}><div class="lb">${t('pm_cat')}</div><div class="v">${fmt(pmV)}</div><div class="d">${ltr(pct(pmV, tot || 1).toFixed(1) + '%')} ${t('of_received')}</div></div></div>`;
+  const fileCard = m !== CUR ? '' : `<div class="card" style="margin-top:14px"><div class="hd"><h3>${t('rp_files')}</h3></div><div class="tw"><table><thead><tr><th>${t('file')}</th><th>${t('distributor')}</th><th class="num">${t('received_total')}</th><th class="num">${t('mapped_total')}</th><th class="num">${t('pm_cat')}</th><th>${t('status')}</th></tr></thead><tbody>${FILES.map(f => { const a = sv(mdl.map.filter(s => s.dist === f.dist), 'val'), b = sv(mdl.pend.filter(x => x.dist === f.dist), 'val'); return `<tr class="row ${b ? 'pm' : ''}"><td>${esc(f.name)}</td><td>${esc(nm(byId(DIST, f.dist)))}</td><td class="num">${fmt(a + b)}</td><td class="num">${fmt(a)}</td><td class="num">${b ? '<b>' + fmt(b) + '</b>' : '—'}</td><td>${stBadge(f)}</td></tr>`; }).join('')}</tbody></table></div></div>`;
+  return tabs + `<div class="toolbar"><label class="fld"><span>${t('period')}</span><select onchange="A.setM('rMonth',this.value)">${MONTHS.map(x => `<option value="${x}" ${x === m ? 'selected' : ''}>${mLabel(x)}${x === CUR && !S.cycLoaded ? ' · ' + t('rp_incoming') : ''}</option>`).join('')}</select></label>
+  <label class="fld"><span>${t('metric')}</span><select onchange="A.setM('rMetric',this.value)"><option value="val" ${vk === 'val' ? 'selected' : ''}>${t('value')}</option><option value="units" ${vk === 'units' ? 'selected' : ''}>${t('units')}</option></select></label><span class="sp"></span><button class="btn" onclick="window.print()">${t('print')}</button></div>${stamp()}${pmStrip}${fileCard}
+  <div class="grid g2" style="margin-top:14px"><div class="card"><div class="hd"><h3>${t('rp_brick_all')}</h3></div>${brickAll}</div><div class="card"><div class="hd"><h3>${t('rp_mix')}</h3></div>${prodAll}</div>
+  <div class="card"><div class="hd"><h3>${t('rp_dist')}</h3></div>${distAll}</div><div class="card"><div class="hd"><h3>${t('rp_trend')}</h3></div>${trend}</div>
+  <div class="card"><div class="hd"><h3>${t('rp_terr')}</h3></div>${terrBars}<div class="m" style="margin-top:8px">${t('pm_not_attr')}</div></div></div>`;
 };
 
 PAGES.products = () => {
@@ -1236,6 +1260,7 @@ PAGES.customers = () => {
   return `<div class="toolbar"><input type="search" placeholder="${t('search')}" value="${esc(S.custQ)}" oninput="A.custSearch(this.value)" style="min-width:260px"><label class="chk"><input type="checkbox" ${S.custKey ? 'checked' : ''} onchange="A.keyOnly(this.checked)"> ${t('key_only')}</label><span class="sp"></span>${muBar(['cust', 'moves'])}<button class="btn pri" onclick="A.addCustomer()">${t('add_customer')}</button></div>
   <div class="tw"><table><thead><tr><th>${t('code')}</th><th>${t('customer')}</th><th>${t('brick')}</th><th>${t('governorate')}</th><th>${t('sector')}</th><th>${t('linked_codes_h')}</th><th></th></tr></thead><tbody>${list.map(c => `<tr class="row"><td><span class="chip">${c.id}</span></td><td>${nm(c)}${c.key ? ` <span class="badge b-teal" style="margin-inline-start:6px">${t('key_account')}</span>` : ''}</td><td>${terrName(c.terr)}</td><td>${nm(byId(GOV, byId(TERR, c.terr).gov))}</td><td>${nm(byId(SECT, c.sector))}</td><td><div class="chips">${c.codes.map(x => `<span class="chip ${x.old ? 'old' : ''}" title="${esc(distName(x.d))}${x.old ? ' · ' + t('previous') : ''}">${esc(x.c)}</span>`).join('')}</div></td><td class="num">${c.key ? '' : `<button class="btn sm" onclick="A.moveCust('${c.id}')">${t('move_brick')}</button>`}</td></tr>`).join('')}</tbody></table></div>`;
 };
+
 
 /* ===== handlers, simulation, init ===== */
 let RLN = RULES.length;
@@ -1810,6 +1835,19 @@ const findBy = (arr, v) => { v = cell(v).toLowerCase(); return arr.find(x => x.i
 const findTerr = v => findBy(TERR, v), findProd = v => findBy(PROD, v), findRep = v => findBy(REPS, v), findDist = v => findBy(DIST, v), findBrand = v => findBy(BRANDS, v);
 const findCust = v => { v = cell(v); return custFromLabel(v) || CUST.find(c => c.codes.some(x => x.c === v)) || null; };
 const isPct = v => /^\d+(\.\d+)?$/.test(v) && +v >= 0 && +v <= 100;
+
+/* what the incoming files hold for a month: the part tied to a brick and the Pending Mapping part, whether or not the cycle is loaded yet */
+function rcvModel(m) {
+  if (m !== CUR) return { map: SALES.filter(s => s.m === m), pend: [] };
+  if (S.cycLoaded) return { map: SALES.filter(s => s.m === CUR), pend: PEND.filter(p => p.m === CUR) };
+  const map = SALES.filter(s => s.m === CUR).map(s => Object.assign({}, s)), pend = [];
+  FILES.forEach(f => {
+    const open = f.map.filter(x => !x.chosen); if (!open.length) return;
+    const tw = open.reduce((a, x) => a + x.w, 0);
+    map.filter(s => s.dist === f.dist).forEach(s => { open.forEach(x => pend.push({ fid: f.id, mid: x.id, m: CUR, dist: f.dist, prod: s.prod, units: s.units * x.w, val: s.val * x.w, raw: x.raw, dcode: x.dcode })); s.units *= 1 - tw; s.val *= 1 - tw; });
+  });
+  return { map, pend };
+}
 
 /* ===== v1.3 part b: mass-upload kinds, multi-file intake, column map, split download, global search ===== */
 const num = v => { const s = String(v == null ? '' : v).trim().replace(/,/g, ''); return /^-?\d+(\.\d+)?$/.test(s) ? parseFloat(s) : NaN; };
